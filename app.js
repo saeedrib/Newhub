@@ -4,7 +4,8 @@ const SUPABASE_URL = "https://gwjajtiagesuzbyxmooq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_OLbgnp2TxUO-JW56tSryhA_BcRnpgGT";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = (id) => document.getElementById(id);
-let state = { user:null, data:null, page:"dashboard" };\nlet tapBusy=false, tapCooldownUntil=0, localBalance=null;
+let state = { user:null, data:null, page:"dashboard" };
+let tapBusy=false, tapCooldownUntil=0, localBalance=null;
 
 function notice(message, type="info") {
   const el=$("notice"); el.textContent=message; el.className="notice show "+type;
