@@ -30,6 +30,7 @@ async function loadDashboard() {
   $("refCode").textContent=state.data.profile.referral_code;
   $("refLink").value=location.origin+location.pathname+"?ref="+encodeURIComponent(state.data.profile.referral_code);
   $("tapReward").textContent=state.data.settings.tap_points+" coins per tap";
+  if($("tapButton"))$("tapButton").title="Earn "+state.data.settings.tap_points+" coins per tap";
   if($("dailyLimit"))$("dailyLimit").textContent=state.data.settings.tap_daily_limit;
   const dailyCoins=Math.min(state.data.taps_today*state.data.settings.tap_points,1200);
   const dailyPct=Math.min(100,(dailyCoins/1200)*100);
@@ -85,6 +86,7 @@ $("loginForm").addEventListener("submit",async e=>{
 $("showLogin").onclick=()=>{$("signupPanel").hidden=true;$("loginPanel").hidden=false;};
 $("showSignup").onclick=()=>{$("loginPanel").hidden=true;$("signupPanel").hidden=false;};
 $("logoutBtn").onclick=async()=>{await supabase.auth.signOut();state.user=null;showApp();notice("You have signed out.");};
+document.querySelector(".tap-orb")?.addEventListener("click",()=>$("tapButton").click());
 $("tapButton").onclick=async()=>{const b=$("tapButton");b.disabled=true;b.textContent="Please wait…";try{const d=await api("tap");notice("+"+fmt(d.result.points_awarded)+" points added to your wallet!","success");await loadDashboard();}catch(e){notice(e.message,"error");}finally{b.disabled=false;b.innerHTML="✦ TAP TO EARN";}};
 $("copyLink").onclick=async()=>{try{await navigator.clipboard.writeText($("refLink").value);notice("Invite link copied!","success");}catch{ $("refLink").select();document.execCommand("copy");notice("Invite link copied!","success");}};
 $("withdrawForm").addEventListener("submit",async e=>{
