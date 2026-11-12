@@ -17,6 +17,13 @@ Deno.serve(async(req:Request)=>{
   const {data:profile,error:profileError}=await admin.from("profiles").select("*").eq("id",user.id).single();
   if(profileError||!profile)return json({error:"Your profile is not ready yet. Please sign in again."},400);
   const body=await req.json().catch(()=>({}));
+  if(body.action==="tap_batch"){
+   const tapCount=Number(body.tap_count);
+   if(!Number.isInteger(tapCount)||tapCount<1||tapCount>25)return json({error:"Invalid tap batch."},400);
+   const {data,error}=await admin.rpc("newhub_claim_taps_batch",{p_user_id:user.id,p_tap_count:tapCount});
+   if(error)return json({error:error.message},400);
+   return json({ok:true,result:data});
+  }
   if(body.action==="tap"){
    const {data,error}=await admin.rpc("newhub_claim_tap",{p_user_id:user.id});
    if(error)return json({error:error.message},400);
@@ -24,6 +31,7 @@ Deno.serve(async(req:Request)=>{
   }
   if(body.action==="withdraw"){
    const points=Number(body.points);
+   if(!Number.isInteger(points)||points<10000)return json({error:"Minimum withdrawal is 10,000 points."},400);
    if(!Number.isInteger(points)||points<=0)return json({error:"Enter a valid points amount."},400);
    const details={method:String(body.method||"Bank transfer").slice(0,40),account_name:String(body.account_name||"").slice(0,100),account_number:String(body.account_number||"").slice(0,40),bank_name:String(body.bank_name||"").slice(0,100)};
    if(!details.account_name||!details.account_number||!details.bank_name)return json({error:"Complete the payout details."},400);
@@ -43,7 +51,7 @@ Deno.serve(async(req:Request)=>{
    const balance=(ledger.data||[]).reduce((sum,row)=>sum+Number(row.points),0);
    const {count:tapsToday}=await admin.from("tap_claims").select("*",{count:"exact",head:true}).eq("user_id",user.id).gte("claimed_at",new Date(new Date().setHours(0,0,0,0)).toISOString());
    const sm=Object.fromEntries((settings.data||[]).map(x=>[x.setting_key,x.setting_value]));
-   return json({ok:true,profile:{display_name:profile.display_name,referral_code:profile.referral_code,role:profile.role,email:user.email},balance,ledger:ledger.data||[],withdrawals:withdrawals.data||[],referrals:referrals.count||0,taps_today:tapsToday||0,referral_milestone:milestone.data||null,settings:{tap_points:Number(sm.tap_points??2),tap_cooldown_seconds:Number(sm.tap_cooldown_seconds??10),tap_daily_limit:Number(sm.tap_daily_limit??600),withdrawal_min_points:Number(sm.withdrawal_min_points??4000),referral_milestone_count:Number(sm.referral_milestone_count??35),referral_milestone_points:Number(sm.referral_milestone_points??20000)}});
+   return json({ok:true,profile:{display_name:profile.display_name,referral_code:profile.referral_code,role:profile.role,email:user.email},balance,ledger:ledger.data||[],withdrawals:withdrawals.data||[],referrals:referrals.count||0,taps_today:tapsToday||0,referral_milestone:milestone.data||null,settings:{tap_points:Number(sm.tap_points??2),tap_cooldown_seconds:Number(sm.tap_cooldown_seconds??10),tap_daily_limit:Number(sm.tap_daily_limit??600),withdrawal_min_points:Number(sm.withdrawal_min_points??10000),referral_milestone_count:Number(sm.referral_milestone_count??35),referral_milestone_points:Number(sm.referral_milestone_points??20000)}});
   }
   if(body.action==="admin"){
    if(profile.role!=="admin")return json({error:"Admin access required."},403);
