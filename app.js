@@ -60,7 +60,7 @@ function showPage(page) {
   state.page=page;
   document.querySelectorAll("[data-page]").forEach(x=>x.hidden=x.dataset.page!==page);
   document.querySelectorAll("[data-nav]").forEach(x=>x.classList.toggle("active",x.dataset.nav===page));
-  $("pageTitle").textContent=({dashboard:"Dashboard",tap:"Tap & Earn",invite:"Invite Friends",wallet:"My Wallet",withdraw:"Withdraw",profile:"My Profile",admin:"Admin Dashboard"})[page]||"NEWHUB";
+  $("pageTitle").textContent=({dashboard:"Home",tap:"Tap & Earn",invite:"Invite Friends",wallet:"My Wallet",withdraw:"Withdraw",profile:"My Profile",admin:"Admin Dashboard"})[page]||"NEWHUB";
   if(page==="admin") loadAdmin().catch(e=>notice(e.message,"error"));
 }
 async function loadAdmin(){
