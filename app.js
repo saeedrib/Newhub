@@ -4,7 +4,7 @@ const SUPABASE_URL = "https://gwjajtiagesuzbyxmooq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_OLbgnp2TxUO-JW56tSryhA_BcRnpgGT";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = (id) => document.getElementById(id);
-let state = { user:null, data:null, page:"dashboard" };
+let state = { user:null, data:null, page:"dashboard" };\nlet tapBusy=false, tapCooldownUntil=0, localBalance=null;
 
 function notice(message, type="info") {
   const el=$("notice"); el.textContent=message; el.className="notice show "+type;
@@ -24,7 +24,7 @@ async function loadDashboard() {
   state.data=await api("dashboard");
   $("accountName").textContent=state.data.profile.display_name||state.data.profile.email;
   $("accountEmail").textContent=state.data.profile.email||"";$("profileName").value=state.data.profile.display_name||"";$("profileEmail").value=state.data.profile.email||"";$("logoutBtn").hidden=false;
-  $("dashboardBalance").textContent=fmt(state.data.balance);$("walletBalance").textContent=fmt(state.data.balance);
+  localBalance=Number(state.data.balance||0);$("dashboardBalance").textContent=fmt(localBalance);$("walletBalance").textContent=fmt(localBalance);
   $("tapCount").textContent=fmt(state.data.taps_today);
   document.querySelectorAll("#refCount").forEach(el=>el.textContent=fmt(state.data.referrals));
   $("refCode").textContent=state.data.profile.referral_code;
@@ -59,7 +59,7 @@ async function showApp() {
 function showPage(page) {
   state.page=page;
   document.querySelectorAll("[data-page]").forEach(x=>x.hidden=x.dataset.page!==page);
-  document.querySelectorAll("[data-nav]").forEach(x=>x.classList.toggle("active",x.dataset.nav===page));
+  document.querySelectorAll("[data-nav]").forEach(x=>{x.hidden=x.dataset.nav==="admin"&&(!state.data||state.data.profile.role!=="admin");x.classList.toggle("active",x.dataset.nav===page);});\n  if(page==="admin"&&(!state.data||state.data.profile.role!=="admin")){showPage("dashboard");return;}
   $("pageTitle").textContent=({dashboard:"Home",tap:"Tap & Earn",invite:"Invite Friends",wallet:"My Wallet",withdraw:"Withdraw",profile:"My Profile",admin:"Admin Dashboard"})[page]||"NEWHUB";
   if(page==="admin") loadAdmin().catch(e=>notice(e.message,"error"));
 }
@@ -86,10 +86,44 @@ $("loginForm").addEventListener("submit",async e=>{
 $("showLogin").onclick=()=>{$("signupPanel").hidden=true;$("loginPanel").hidden=false;};
 $("showSignup").onclick=()=>{$("loginPanel").hidden=true;$("signupPanel").hidden=false;};
 $("logoutBtn").onclick=async()=>{await supabase.auth.signOut();state.user=null;showApp();notice("You have signed out.");};
-document.querySelectorAll(".tap-orb").forEach(orb=>orb.addEventListener("click",()=>{if($("tapButton"))$("tapButton").click();}));
+
 $("homeTapButton")?.addEventListener("click",()=>showPage("tap"));
 $("homeStartTap")?.addEventListener("click",()=>showPage("tap"));
-$("tapButton").onclick=async()=>{const b=$("tapButton");b.disabled=true;b.textContent="Please wait…";try{const d=await api("tap");notice("+"+fmt(d.result.points_awarded)+" points added to your wallet!","success");await loadDashboard();}catch(e){notice(e.message,"error");}finally{b.disabled=false;b.innerHTML="✦ TAP TO EARN";}};
+function floatTap(x,y){const el=document.createElement("span");el.className="float-point";el.textContent="+"+fmt(state.data?.settings?.tap_points||2);el.style.left=x+"px";el.style.top=y+"px";document.body.appendChild(el);setTimeout(()=>el.remove(),800);}
+async function performTap(ev){
+ const now=Date.now(), cooldown=Number(state.data?.settings?.tap_cooldown_seconds||10)*1000;
+ if(tapBusy||now<tapCooldownUntil){return;}
+ const amount=Number(state.data?.settings?.tap_points||2);
+ const dailyLimit=Number(state.data?.settings?.tap_daily_limit||600);
+ if(Number(state.data?.taps_today||0)>=dailyLimit){notice("You have reached today's mining limit. Come back tomorrow.","error");return;}
+ tapBusy=true;tapCooldownUntil=now+cooldown;
+ const rect=ev.currentTarget.getBoundingClientRect();floatTap(ev.clientX||rect.left+rect.width/2,ev.clientY||rect.top+rect.height/2);
+ document.querySelectorAll(".tap-orb").forEach(o=>{o.classList.add("pressed");setTimeout(()=>o.classList.remove("pressed"),140);});
+ localBalance=(localBalance??Number(state.data.balance))+amount;
+ state.data.balance=localBalance;state.data.taps_today=Number(state.data.taps_today||0)+1;
+ $("dashboardBalance").textContent=fmt(localBalance);$("walletBalance").textContent=fmt(localBalance);$("tapCount").textContent=fmt(state.data.taps_today);
+ const dailyCoins=Math.min(state.data.taps_today*amount,1200),pct=Math.min(100,dailyCoins/1200*100);
+ ["dailyProgress","tapProgress"].forEach(id=>{if($(id))$(id).style.width=pct+"%";});
+ if($("dailyProgressText"))$("dailyProgressText").textContent=fmt(dailyCoins)+" of 1,200 coins earned today";
+ if($("tapCoinsToday"))$("tapCoinsToday").textContent=fmt(dailyCoins)+" / 1,200";
+ const status=$("tapStatus");if(status)status.textContent="Syncing securely in the background…";
+ try{
+  const result=await api("tap");
+  const awarded=Number(result.result?.points_awarded||amount);
+  if(awarded!==amount){localBalance+=awarded-amount;state.data.balance=localBalance;}
+  if(status)status.textContent="Saved successfully";
+  $("dashboardBalance").textContent=fmt(localBalance);$("walletBalance").textContent=fmt(localBalance);
+  // Refresh authoritative counts and ledger without blocking the tap animation.
+  await loadDashboard();
+ }catch(err){
+  state.data.balance-=amount;state.data.taps_today=Math.max(0,state.data.taps_today-1);localBalance=state.data.balance;
+  $("dashboardBalance").textContent=fmt(localBalance);$("walletBalance").textContent=fmt(localBalance);$("tapCount").textContent=fmt(state.data.taps_today);
+  if(status)status.textContent="Tap not saved. Please try again.";
+  notice(err.message||"Tap could not be saved.","error");tapCooldownUntil=0;
+ }finally{tapBusy=false;}
+}
+$("tapButton").onclick=performTap;
+document.querySelectorAll(".tap-orb").forEach(orb=>orb.addEventListener("click",performTap));
 $("copyLink").onclick=async()=>{try{await navigator.clipboard.writeText($("refLink").value);notice("Invite link copied!","success");}catch{ $("refLink").select();document.execCommand("copy");notice("Invite link copied!","success");}};
 $("withdrawForm").addEventListener("submit",async e=>{
  e.preventDefault();const b=$("withdrawBtn");b.disabled=true;
