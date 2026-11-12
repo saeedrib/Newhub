@@ -1,24 +1,22 @@
 # NEWHUB
 
-NEWHUB is a mobile-first rewards platform concept: **Tap • Earn • Invite**.
+NEWHUB is a mobile-first rewards app: **Tap • Earn • Invite**.
 
-## Current status
-- Initial responsive landing page is in `index.html`.
-- This is the public-facing starter page only. Signup, point balances, referrals, wallet and withdrawals are **not live yet**.
-- No real points or cash rewards are issued by this static page.
+## Implemented
+- Responsive signup and login using Supabase Auth.
+- Member dashboard, wallet balance and point ledger.
+- Server-side tap rewards: 2 points per tap, 10-second cooldown, 100 taps per day.
+- Personal referral link and referral registration tracking.
+- Withdrawal requests with 4,000-point minimum and bank transfer details.
+- Admin-only withdrawal review API and dashboard interface (admin role must be assigned securely).
+- Supabase Edge Function `newhub-api`; secret key stays server-side.
+- Row Level Security enabled on all public tables.
 
-## Planned build
-1. Secure authentication and user profiles using Supabase Auth.
-2. Database tables and server-side rules for points, tap limits and referral tracking.
-3. User dashboard, tap activity, referral page and wallet history.
-4. Admin dashboard with role-based access.
-5. Optional Monetag placements that do not block users or force ad views.
-6. Vercel deployment and environment configuration.
+## Launch limitations
+- Referral signup and milestone bonuses are settings only; crediting is not enabled until qualification and anti-fraud rules are confirmed.
+- Withdrawal requests reserve points and enter review; they do not send money. Confirm point-to-naira conversion, payout provider and fees before real payouts.
+- Supabase email confirmation may be enabled, so users may need to confirm email before signing in.
+- Vercel deployment is not yet completed.
 
-## Deployment
-This is a static HTML site and can be deployed on Vercel by importing this repository. No build command is required; the project root is the output directory.
-
-## Security notes
-- Never put a Supabase service-role key or other secret in browser code.
-- Point awards, referral qualification and withdrawals must be validated server-side.
-- Admin permissions must be enforced by database policies/server-side checks, not by hiding buttons in the UI.
+## Deploy
+Import https://github.com/saeedrib/Newhub into Vercel. Framework preset: Other; leave build and install commands blank; output directory `.`. Never add a Supabase secret/service-role key to browser code.
