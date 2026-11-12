@@ -94,6 +94,7 @@ $("loginForm").addEventListener("submit",async e=>{
  e.preventDefault();try{const {error}=await supabase.auth.signInWithPassword({email:$("loginEmail").value.trim(),password:$("loginPassword").value});if(error)throw error;notice("You are signed in.","success");await showApp();}catch(err){notice(err.message,"error");}
 });
 $("showLogin").onclick=()=>{$("signupPanel").hidden=true;$("loginPanel").hidden=false;};
+$("forgotPassword").onclick=async()=>{const email=$("loginEmail").value.trim();if(!email){notice("Enter your admin email address first, then tap Forgot password.","error");$("loginEmail").focus();return;}const b=$("forgotPassword");b.disabled=true;try{const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin});if(error)throw error;notice("Password reset link sent. Check your email inbox and spam folder.","success");}catch(err){notice(err.message||"Could not send password reset email.","error");}finally{b.disabled=false;}};
 $("showSignup").onclick=()=>{$("loginPanel").hidden=true;$("signupPanel").hidden=false;};
 $("logoutBtn").onclick=async()=>{await supabase.auth.signOut();state.user=null;showApp();notice("You have signed out.");};
 
