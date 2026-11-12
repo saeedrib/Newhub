@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b35">
+  <meta name="description" content="NEWHUB — Tap, earn points and invite friends.">
+  <title>NEWHUB — Tap • Earn • Invite</title>
+  <style>
+    :root{--navy:#101b35;--navy2:#182847;--green:#10b981;--mint:#d1fae5;--ink:#172033;--muted:#64748b;--bg:#f5f8fb;--white:#fff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:inherit;text-decoration:none}.wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+    header{background:var(--navy);color:white;position:sticky;top:0;z-index:5;border-bottom:1px solid #ffffff18}
+    .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-weight:900;font-size:22px;letter-spacing:.8px}.brand span{color:var(--green)}
+    .navlinks{display:flex;align-items:center;gap:26px;color:#dbe5f5;font-size:14px}.navlinks a:hover{color:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border-radius:12px;font-weight:750;border:0;cursor:pointer;background:var(--green);color:#062b22;box-shadow:0 8px 22px #10b98130}
+    .btn.outline{background:transparent;color:white;border:1px solid #ffffff55;box-shadow:none}
+    .hero{background:radial-gradient(circle at 82% 20%,#1d765d66,transparent 32%),linear-gradient(135deg,var(--navy),#172d4c);color:white;padding:76px 0 86px;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:48px}.eyebrow{display:inline-flex;background:#10b98120;color:#6ee7b7;border:1px solid #10b98155;padding:8px 12px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:1.1px}
+    h1{font-size:clamp(42px,6vw,68px);line-height:1.04;letter-spacing:-2.5px;margin:20px 0}.hero p{font-size:17px;line-height:1.7;color:#c7d3e5;max-width:520px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.micro{font-size:12px;color:#aebdd1;margin-top:16px}
+    .preview{background:#f8fafc;color:var(--ink);border-radius:26px;padding:22px;box-shadow:0 30px 80px #0005;transform:rotate(1deg)}.preview-top{display:flex;justify-content:space-between;align-items:center}.pill{background:var(--mint);color:#047857;border-radius:99px;padding:7px 10px;font-size:11px;font-weight:800}.balance{background:linear-gradient(135deg,#10203c,#1d3c5c);color:white;padding:22px;border-radius:18px;margin:18px 0}.balance small{color:#c5d3e5}.balance strong{display:block;font-size:34px;margin:7px 0}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{background:white;padding:15px;border-radius:15px;border:1px solid #e8edf3}.stat small{color:var(--muted)}.stat b{display:block;font-size:20px;margin-top:7px}.tap{margin-top:14px;background:var(--green);border-radius:16px;text-align:center;padding:17px;font-weight:900;color:#073b2c}
+    section{padding:72px 0}.section-head{text-align:center;max-width:650px;margin:0 auto 34px}.section-head h2{font-size:clamp(28px,4vw,40px);margin:0 0 12px;color:var(--navy);letter-spacing:-1px}.section-head p{color:var(--muted);line-height:1.7;margin:0}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.feature{background:white;border:1px solid #e8edf3;border-radius:20px;padding:24px;box-shadow:0 8px 28px #0f172a08}.ico{width:46px;height:46px;border-radius:14px;background:var(--mint);display:grid;place-items:center;font-size:22px}.feature h3{margin:18px 0 8px;color:var(--navy)}.feature p{margin:0;color:var(--muted);line-height:1.65;font-size:14px}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.step{padding:22px;border-radius:18px;background:#fff;border:1px solid #e8edf3}.num{font-weight:900;color:#059669;font-size:13px;letter-spacing:1px}.step h3{margin:10px 0 6px}.step p{color:var(--muted);font-size:14px;line-height:1.6;margin:0}
+    .cta{background:var(--navy);color:white;border-radius:26px;padding:42px;text-align:center}.cta h2{font-size:clamp(28px,4vw,38px);margin:0 0 10px}.cta p{color:#c7d3e5;margin:0 0 24px}
+    footer{background:#0b1428;color:#aebdd1;padding:28px 0;font-size:13px}.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    @media(max-width:760px){.nav{height:64px}.navlinks{display:none}.hero{padding:54px 0 64px}.hero-grid{grid-template-columns:1fr;gap:34px}.preview{transform:none}.features,.steps{grid-template-columns:1fr}section{padding:54px 0}.cta{padding:32px 20px}}
+  </style>
+</head>
+<body>
+<header><div class="wrap nav"><a class="brand" href="#">NEW<span>HUB</span></a><nav class="navlinks"><a href="#features">Features</a><a href="#how">How it works</a><a href="#about">About</a></nav><a class="btn" href="#get-started">Get started</a></div></header>
+<main>
+  <section class="hero"><div class="wrap hero-grid"><div><span class="eyebrow">TAP • EARN • INVITE</span><h1>Small actions.<br><span style="color:#34d399">Earn points.</span></h1><p>Welcome to NEWHUB — a simple rewards experience where you can collect points, complete activities and invite friends.</p><div class="actions"><a class="btn" href="#get-started">Explore NEWHUB <span aria-hidden="true">→</span></a><a class="btn outline" href="#how">See how it works</a></div><div class="micro">A clear, simple and mobile-friendly rewards experience.</div></div>
+  <div class="preview" aria-label="Illustrative rewards dashboard preview"><div class="preview-top"><b>NEWHUB <span style="color:#059669">●</span></b><span class="pill">DASHBOARD PREVIEW</span></div><div class="balance"><small>Available points</small><strong>0 <span style="font-size:16px;color:#a7f3d0">PTS</span></strong><small>Your rewards will appear here</small></div><div class="stats"><div class="stat"><small>Tap activity</small><b>0 taps</b></div><div class="stat"><small>Invited friends</small><b>0 friends</b></div></div><div class="tap">✦ &nbsp; TAP &amp; EARN</div></div>
+  </div></section>
+  <section id="features"><div class="wrap"><div class="section-head"><h2>Everything in one hub</h2><p>NEWHUB brings your rewards activities together in one clean and easy-to-use space.</p></div><div class="features">
+    <article class="feature"><div class="ico">👆</div><h3>Tap &amp; Earn</h3><p>Take part in the tap activity and track the points you earn from eligible actions.</p></article>
+    <article class="feature"><div class="ico">🤝</div><h3>Invite Friends</h3><p>Share your personal invite link and follow your referral progress from your dashboard.</p></article>
+    <article class="feature"><div class="ico">👛</div><h3>Your Wallet</h3><p>Keep track of your points, reward history and withdrawal requests in one place.</p></article>
+  </div></div></section>
+  <section id="how" style="background:#edf3f7"><div class="wrap"><div class="section-head"><h2>How NEWHUB works</h2><p>Get started in a few simple steps. Your activity and rewards will be shown clearly.</p></div><div class="steps">
+    <article class="step"><div class="num">STEP 01</div><h3>Create an account</h3><p>Register with your email and password when account access is enabled.</p></article>
+    <article class="step"><div class="num">STEP 02</div><h3>Take part</h3><p>Use the tap activity and other eligible tasks to collect points.</p></article>
+    <article class="step"><div class="num">STEP 03</div><h3>Invite &amp; track</h3><p>Invite friends and view your referral progress and points in your account.</p></article>
+  </div></div></section>
+  <section id="about"><div class="wrap"><div class="cta" id="get-started"><h2>Your rewards journey starts here.</h2><p>NEWHUB is getting ready. Account registration and live rewards will be enabled after the secure database is connected.</p><a class="btn" href="https://github.com/saeedrib/Newhub">View project on GitHub</a></div></div></section>
+</main>
+<footer><div class="wrap foot"><b style="color:white">NEWHUB</b><span>Tap • Earn • Invite</span><span>© <span id="year">2026</span> NEWHUB. All rights reserved.</span></div></footer>
+</body></html>
