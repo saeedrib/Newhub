@@ -30,17 +30,19 @@ async function loadDashboard() {
   $("refCode").textContent=state.data.profile.referral_code;
   $("refLink").value=location.origin+location.pathname+"?ref="+encodeURIComponent(state.data.profile.referral_code);
   $("tapReward").textContent=state.data.settings.tap_points+" coins per tap";
-  $("dailyLimit").textContent=state.data.settings.tap_daily_limit;
+  if($("dailyLimit"))$("dailyLimit").textContent=state.data.settings.tap_daily_limit;
   const dailyCoins=Math.min(state.data.taps_today*state.data.settings.tap_points,1200);
   const dailyPct=Math.min(100,(dailyCoins/1200)*100);
   if($("dailyProgress"))$("dailyProgress").style.width=dailyPct+"%";
   if($("dailyProgressText"))$("dailyProgressText").textContent=fmt(dailyCoins)+" of 1,200 coins earned today";
   if($("tapCoinsToday"))$("tapCoinsToday").textContent=fmt(dailyCoins)+" / 1,200";
   if($("tapProgress"))$("tapProgress").style.width=dailyPct+"%";
-  const invitePct=Math.min(100,(state.data.referrals/35)*100);
+  const inviteGoal=state.data.settings.referral_milestone_count||35;
+  const inviteReward=state.data.settings.referral_milestone_points||20000;
+  const invitePct=Math.min(100,(state.data.referrals/inviteGoal)*100);
   if($("inviteProgress"))$("inviteProgress").style.width=invitePct+"%";
-  if($("inviteProgressLabel"))$("inviteProgressLabel").textContent=fmt(state.data.referrals)+" / 35 friends";
-  if($("inviteProgressText"))$("inviteProgressText").textContent=state.data.referrals>=35?"Milestone reached! Your account is eligible for the 20,000-coin reward.":fmt(35-state.data.referrals)+" more friends to reach your 20,000-coin reward milestone.";
+  if($("inviteProgressLabel"))$("inviteProgressLabel").textContent=fmt(state.data.referrals)+" / "+fmt(inviteGoal)+" friends";
+  if($("inviteProgressText"))$("inviteProgressText").textContent=state.data.referral_milestone?"Reward credited: "+fmt(state.data.referral_milestone.points_awarded)+" coins on "+new Date(state.data.referral_milestone.qualified_at).toLocaleDateString()+".":state.data.referrals>=inviteGoal?"Milestone reached. Reward processing status is being checked.":fmt(inviteGoal-state.data.referrals)+" more friends to reach your "+fmt(inviteReward)+"-coin reward milestone.";
   $("minWithdraw").textContent=fmt(state.data.settings.withdrawal_min_points);
   $("dashboardLedgerRows").innerHTML=state.data.ledger.length?state.data.ledger.map(x=>`<tr><td>${esc(x.reason.replaceAll("_"," "))}</td><td class="${x.points>0?"positive":"negative"}">${x.points>0?"+":""}${fmt(x.points)}</td><td>${new Date(x.created_at).toLocaleString()}</td></tr>`).join(""):'<tr><td colspan="3">No wallet activity yet.</td></tr>';
   $("walletLedgerRows").innerHTML=$("dashboardLedgerRows").innerHTML;
@@ -74,7 +76,7 @@ $("signupForm").addEventListener("submit",async e=>{
   const {data,error}=await supabase.auth.signUp({email,password,options:{data:{display_name:name,referral_code:referral||null}}});
   if(error) throw error;
   if(data.session){notice("Account created. Welcome to NEWHUB!","success");await showApp();}
-  else notice("Registration received. Check your email for the confirmation link, then sign in.","success");
+  else notice("Registration received. Please check your email for a confirmation link before signing in.","success");
  }catch(err){notice(err.message,"error");}finally{btn.disabled=false;}
 });
 $("loginForm").addEventListener("submit",async e=>{
