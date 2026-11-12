@@ -49,18 +49,27 @@ async function loadDashboard() {
   $("dashboardLedgerRows").innerHTML=state.data.ledger.length?state.data.ledger.map(x=>`<tr><td>${esc(x.reason.replaceAll("_"," "))}</td><td class="${x.points>0?"positive":"negative"}">${x.points>0?"+":""}${fmt(x.points)}</td><td>${new Date(x.created_at).toLocaleString()}</td></tr>`).join(""):'<tr><td colspan="3">No wallet activity yet.</td></tr>';
   $("walletLedgerRows").innerHTML=$("dashboardLedgerRows").innerHTML;
   $("withdrawRows").innerHTML=state.data.withdrawals.length?state.data.withdrawals.map(x=>`<tr><td>${fmt(x.points_requested)}</td><td><span class="status ${esc(x.status)}">${esc(x.status)}</span></td><td>${new Date(x.created_at).toLocaleDateString()}</td><td>${esc(x.admin_note||"—")}</td></tr>`).join(""):'<tr><td colspan="4">No withdrawal requests yet.</td></tr>';
-  $("adminNav").hidden=state.data.profile.role!=="admin";
+  syncAdminVisibility();
 }
 async function showApp() {
   state.user=(await supabase.auth.getUser()).data.user;
-  if(!state.user){$("authView").hidden=false;$("appView").hidden=true;return;}
+  if(!state.user){$("authView").hidden=false;$("appView").hidden=true;$("logoutBtn").hidden=true;syncAdminVisibility();return;}
   $("authView").hidden=true;$("appView").hidden=false;
-  await loadDashboard(); showPage(state.page);
+  await loadDashboard(); showPage(state.page==="admin"?"dashboard":state.page);
+}
+function syncAdminVisibility(){
+ const allowed=!!state.user&&state.data?.profile?.role==="admin";
+ let nav=$("adminNav");
+ if(allowed&&!nav){nav=document.createElement("button");nav.id="adminNav";nav.className="navbtn";nav.dataset.nav="admin";nav.innerHTML=`<svg viewBox="0 0 24 24"><path d="M12 3 4 6v5c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Admin</span>`;document.querySelector("aside")?.appendChild(nav);nav.addEventListener("click",()=>showPage("admin"));}
+ if(nav)nav.hidden=!allowed;
+ const section=document.querySelector(`[data-page="admin"]`);
+ if(section){section.classList.add("admin-only");section.style.setProperty("display",allowed?"block":"none","important");}
 }
 function showPage(page) {
+  if(page==="admin"&&state.data?.profile?.role!=="admin")page="dashboard";
   state.page=page;
   document.querySelectorAll("[data-page]").forEach(x=>x.hidden=x.dataset.page!==page);
-  document.querySelectorAll("[data-nav]").forEach(x=>{x.hidden=x.dataset.nav==="admin"&&(!state.data||state.data.profile.role!=="admin");x.classList.toggle("active",x.dataset.nav===page);});\n  if(page==="admin"&&(!state.data||state.data.profile.role!=="admin")){showPage("dashboard");return;}
+  document.querySelectorAll("[data-nav]").forEach(x=>{if(x.dataset.nav!=="admin")x.hidden=false;x.classList.toggle("active",x.dataset.nav===page);});
   $("pageTitle").textContent=({dashboard:"Home",tap:"Tap & Earn",invite:"Invite Friends",wallet:"My Wallet",withdraw:"Withdraw",profile:"My Profile",admin:"Admin Dashboard"})[page]||"NEWHUB";
   if(page==="admin") loadAdmin().catch(e=>notice(e.message,"error"));
 }
@@ -134,5 +143,5 @@ $("withdrawForm").addEventListener("submit",async e=>{
 $("adminRows").addEventListener("click",async e=>{const b=e.target.closest("[data-review]");if(!b)return;try{await api("review_withdrawal",{request_id:b.dataset.review,status:b.dataset.status,note:"Reviewed by NEWHUB admin"});notice("Withdrawal request updated.","success");await loadAdmin();}catch(err){notice(err.message,"error");}});
 $("profileName").addEventListener("change",async()=>notice("Profile name editing will be enabled after profile update policy is added."));
 const params=new URLSearchParams(location.search);if(params.get("ref"))$("signupReferral").value=params.get("ref").toUpperCase();
-supabase.auth.onAuthStateChange((_event,session)=>{if(session)showApp().catch(e=>notice(e.message,"error"));else{state.user=null;$("authView").hidden=false;$("appView").hidden=true;}});
+supabase.auth.onAuthStateChange((_event,session)=>{if(session)showApp().catch(e=>notice(e.message,"error"));else{state.user=null;state.data=null;$("authView").hidden=false;$("appView").hidden=true;$("logoutBtn").hidden=true;syncAdminVisibility();}});
 showApp().catch(e=>notice(e.message,"error"));
