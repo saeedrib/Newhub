@@ -51,6 +51,48 @@ footer{padding:20px;text-align:center;color:#94a3b8;font-size:12px}.ad-safe-spac
  .auth-card{padding:22px 20px}
 }
 
+
+/* NEWHUB Android app-style visual system */
+:root{--bg:#f3f7f5;--ink:#14231e;--muted:#66776f;--green:#079b68;--green2:#12bd82;--navy:#122d27;--line:#e4eee9}
+body{background:var(--bg);color:var(--ink);font-family:Inter,Roboto,"Segoe UI",system-ui,sans-serif}
+header{height:62px;background:#fff;color:var(--navy);box-shadow:0 2px 14px #102d2010;border-bottom:1px solid #eaf0ed}
+.brand{color:#122d27;font-size:23px;letter-spacing:-.8px}.brand span{color:#079b68}
+.header-right #accountEmail{color:#64776f!important}
+.app-layout{display:block;min-height:calc(100vh - 62px);background:transparent}
+aside{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:0;width:min(620px,100%);height:72px;padding:7px 10px calc(7px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-around;gap:3px;border:1px solid #e7efea;border-bottom:0;border-radius:20px 20px 0 0;box-shadow:0 -8px 28px #163c2c12;background:#fff}
+.userbox{display:none}
+.navbtn{flex:1;min-width:0;width:auto;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 2px;margin:0;border-radius:13px;color:#7a8982;font-size:10px;font-weight:750;white-space:nowrap}
+.navbtn.active{background:#e9f8f0;color:#07885d}
+.main{width:min(760px,100%);padding:17px 15px 100px;margin:0 auto}
+.mainhead{margin:2px 2px 16px}.mainhead h1{font-size:22px;color:#122d27;letter-spacing:-.5px}
+.btn{background:linear-gradient(135deg,#10b981,#079b68);color:white;border-radius:14px;box-shadow:0 5px 13px #079b6822}
+.btn.light{background:#f2f7f4;color:#28483c;border:1px solid #e1ebe5;box-shadow:none}
+.card{border:1px solid #e6eee9;border-radius:21px;box-shadow:0 7px 24px #183c2b09;padding:18px}
+.grid{gap:11px}
+.balance-card{background:linear-gradient(135deg,#0d3a2d,#087d59);border:0}
+.balance-card .stat-icon{background:#ffffff20;color:#d1fae5}
+.stat-card{min-height:120px}
+.stat-card .label{color:#728279;font-size:11px}
+.stat-card .big{color:#122d27;font-size:25px}
+.welcome-hero{background:linear-gradient(110deg,#092f26ed,#0c654c99),url('https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=1200&q=85') center/cover;border-radius:25px;min-height:205px;padding:24px;margin-bottom:14px}
+.welcome-hero h2{font-size:28px;line-height:1.12;letter-spacing:-.8px}
+.welcome-hero p{font-size:13px;line-height:1.55}
+.hero-pill{background:#d1fae5;color:#065f46}
+.daily-progress{height:10px;background:#e9f1ec}
+.daily-progress span{background:linear-gradient(90deg,#10b981,#4ade80)}
+.invite-feature{background:linear-gradient(130deg,#e8fbf1,#f8fffb);border-color:#cdeedd}
+.tap-card{padding:25px 18px 23px}
+.tap-orb{width:190px;height:190px;margin:22px auto;background:radial-gradient(circle at 35% 25%,#d1fae5,#34d399 48%,#059669);border:9px solid #eafff3;color:#064e3b;font-size:43px;box-shadow:0 13px 38px #05966935;user-select:none;-webkit-tap-highlight-color:transparent}
+.tap-orb:active{transform:scale(.94)}
+#tapButton{max-width:350px;height:54px;font-size:16px;letter-spacing:.4px}
+#refCode{display:inline-flex;padding:10px 14px;border-radius:12px;background:#e9f8f0;color:#087a54;font-size:19px;letter-spacing:2px;font-weight:900}
+#refLink{background:#f6faf7;border-color:#e1ebe5;color:#385247}
+.field input{border-radius:13px;background:#fbfdfb}
+.auth-shell{background:linear-gradient(160deg,#e9f8f0,#f7faf8 48%,#eef5f1);min-height:calc(100vh - 62px)}
+.auth-card{border:1px solid #e5eee8;box-shadow:0 14px 45px #123d2910}
+.status.approved{background:#e3f8ed;color:#078253}
+@media(max-width:800px){.app-layout{padding-bottom:0}.main{padding:14px 13px 104px}.mainhead{margin-bottom:13px}.grid{grid-template-columns:1fr 1fr}.balance-card{grid-column:1/-1}.welcome-hero{min-height:192px;padding:22px}.welcome-hero h2{font-size:26px}.card{padding:16px}.tap-orb{width:178px;height:178px}}
+
 </style></head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail" style="font-size:12px;color:#cbd5e1"></span><button id="logoutBtn" class="btn light" hidden>Log out</button></div></header>
