@@ -86,7 +86,9 @@ $("loginForm").addEventListener("submit",async e=>{
 $("showLogin").onclick=()=>{$("signupPanel").hidden=true;$("loginPanel").hidden=false;};
 $("showSignup").onclick=()=>{$("loginPanel").hidden=true;$("signupPanel").hidden=false;};
 $("logoutBtn").onclick=async()=>{await supabase.auth.signOut();state.user=null;showApp();notice("You have signed out.");};
-document.querySelector(".tap-orb")?.addEventListener("click",()=>$("tapButton").click());
+document.querySelectorAll(".tap-orb").forEach(orb=>orb.addEventListener("click",()=>{if($("tapButton"))$("tapButton").click();}));
+$("homeTapButton")?.addEventListener("click",()=>showPage("tap"));
+$("homeStartTap")?.addEventListener("click",()=>showPage("tap"));
 $("tapButton").onclick=async()=>{const b=$("tapButton");b.disabled=true;b.textContent="Please wait…";try{const d=await api("tap");notice("+"+fmt(d.result.points_awarded)+" points added to your wallet!","success");await loadDashboard();}catch(e){notice(e.message,"error");}finally{b.disabled=false;b.innerHTML="✦ TAP TO EARN";}};
 $("copyLink").onclick=async()=>{try{await navigator.clipboard.writeText($("refLink").value);notice("Invite link copied!","success");}catch{ $("refLink").select();document.execCommand("copy");notice("Invite link copied!","success");}};
 $("withdrawForm").addEventListener("submit",async e=>{
