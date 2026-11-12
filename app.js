@@ -92,7 +92,7 @@ $("signupForm").addEventListener("submit",async e=>{
  }catch(err){notice(err.message,"error");}finally{btn.disabled=false;}
 });
 $("loginForm").addEventListener("submit",async e=>{
- e.preventDefault();try{const {error}=await supabase.auth.signInWithPassword({email:$("loginEmail").value.trim(),password:$("loginPassword").value});if(error)throw error;notice("You are signed in.","success");await showApp();}catch(err){notice(err.message,"error");}
+ e.preventDefault();const btn=$("loginForm").querySelector("button");if(btn)btn.disabled=true;try{const email=$("loginEmail").value.trim().toLowerCase(),password=$("loginPassword").value;const {error}=await supabase.auth.signInWithPassword({email,password});if(error){if(/invalid login credentials/i.test(error.message))throw new Error("Email ko password bai dace ba. Ka danna Forgot password? domin ka saita sabon password ta email.");throw error;}notice("An shiga account cikin nasara.","success");await showApp();}catch(err){notice(err.message,"error");}finally{if(btn)btn.disabled=false;}
 });
 $("showLogin").onclick=()=>{$("signupPanel").hidden=true;$("loginPanel").hidden=false;};
 $("forgotPassword").onclick=async()=>{const email=$("loginEmail").value.trim();if(!email){notice("Enter your admin email address first, then tap Forgot password.","error");$("loginEmail").focus();return;}const b=$("forgotPassword");b.disabled=true;try{const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin});if(error)throw error;notice("Password reset link sent. Check your email inbox and spam folder.","success");}catch(err){notice(err.message||"Could not send password reset email.","error");}finally{b.disabled=false;}};
