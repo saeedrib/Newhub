@@ -26,13 +26,14 @@ async function loadDashboard() {
   $("accountEmail").textContent=state.data.profile.email||"";$("profileName").value=state.data.profile.display_name||"";$("profileEmail").value=state.data.profile.email||"";$("logoutBtn").hidden=false;
   $("dashboardBalance").textContent=fmt(state.data.balance);$("walletBalance").textContent=fmt(state.data.balance);
   $("tapCount").textContent=fmt(state.data.taps_today);
-  $("refCount").textContent=fmt(state.data.referrals);
+  document.querySelectorAll("#refCount").forEach(el=>el.textContent=fmt(state.data.referrals));
   $("refCode").textContent=state.data.profile.referral_code;
   $("refLink").value=location.origin+location.pathname+"?ref="+encodeURIComponent(state.data.profile.referral_code);
   $("tapReward").textContent=state.data.settings.tap_points+" points per tap";
   $("dailyLimit").textContent=state.data.settings.tap_daily_limit;
   $("minWithdraw").textContent=fmt(state.data.settings.withdrawal_min_points);
   $("dashboardLedgerRows").innerHTML=state.data.ledger.length?state.data.ledger.map(x=>`<tr><td>${esc(x.reason.replaceAll("_"," "))}</td><td class="${x.points>0?"positive":"negative"}">${x.points>0?"+":""}${fmt(x.points)}</td><td>${new Date(x.created_at).toLocaleString()}</td></tr>`).join(""):'<tr><td colspan="3">No wallet activity yet.</td></tr>';
+  $("walletLedgerRows").innerHTML=$("dashboardLedgerRows").innerHTML;
   $("withdrawRows").innerHTML=state.data.withdrawals.length?state.data.withdrawals.map(x=>`<tr><td>${fmt(x.points_requested)}</td><td><span class="status ${esc(x.status)}">${esc(x.status)}</span></td><td>${new Date(x.created_at).toLocaleDateString()}</td><td>${esc(x.admin_note||"—")}</td></tr>`).join(""):'<tr><td colspan="4">No withdrawal requests yet.</td></tr>';
   $("adminNav").hidden=state.data.profile.role!=="admin";
 }
