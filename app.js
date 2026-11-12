@@ -29,7 +29,7 @@ async function loadDashboard() {
   $("tapCount").textContent=fmt(state.data.taps_today);
   document.querySelectorAll("#refCount").forEach(el=>el.textContent=fmt(state.data.referrals));
   $("refCode").textContent=state.data.profile.referral_code;
-  $("refLink").value=location.origin+location.pathname+"?ref="+encodeURIComponent(state.data.profile.referral_code);
+  $("refLink").value="https://newhub-omega.vercel.app/?ref="+encodeURIComponent(state.data.profile.referral_code);
   $("tapReward").textContent=state.data.settings.tap_points+" coins per tap";
   if($("tapButton"))$("tapButton").title="Earn "+state.data.settings.tap_points+" coins per tap";
   if($("dailyLimit"))$("dailyLimit").textContent=state.data.settings.tap_daily_limit;
