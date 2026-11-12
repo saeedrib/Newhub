@@ -5,7 +5,7 @@ const SUPABASE_KEY = "sb_publishable_OLbgnp2TxUO-JW56tSryhA_BcRnpgGT";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = (id) => document.getElementById(id);
 let state = { user:null, data:null, page:"dashboard" };
-let tapBusy=false, tapCooldownUntil=0, localBalance=null;
+let localBalance=null, pendingTapCount=0, tapFlushTimer=null, tapFlushBusy=false;
 
 function notice(message, type="info") {
   const el=$("notice"); el.textContent=message; el.className="notice show "+type;
@@ -100,38 +100,10 @@ $("logoutBtn").onclick=async()=>{await supabase.auth.signOut();state.user=null;s
 $("homeTapButton")?.addEventListener("click",()=>showPage("tap"));
 $("homeStartTap")?.addEventListener("click",()=>showPage("tap"));
 function floatTap(x,y){const el=document.createElement("span");el.className="float-point";el.textContent="+"+fmt(state.data?.settings?.tap_points||2);el.style.left=x+"px";el.style.top=y+"px";document.body.appendChild(el);setTimeout(()=>el.remove(),800);}
-async function performTap(ev){
- const now=Date.now(), cooldown=Number(state.data?.settings?.tap_cooldown_seconds||10)*1000;
- if(tapBusy||now<tapCooldownUntil){return;}
- const amount=Number(state.data?.settings?.tap_points||2);
- const dailyLimit=Number(state.data?.settings?.tap_daily_limit||600);
- if(Number(state.data?.taps_today||0)>=dailyLimit){notice("You have reached today's mining limit. Come back tomorrow.","error");return;}
- tapBusy=true;tapCooldownUntil=now+cooldown;
- const rect=ev.currentTarget.getBoundingClientRect();floatTap(ev.clientX||rect.left+rect.width/2,ev.clientY||rect.top+rect.height/2);
- document.querySelectorAll(".tap-orb").forEach(o=>{o.classList.add("pressed");setTimeout(()=>o.classList.remove("pressed"),140);});
- localBalance=(localBalance??Number(state.data.balance))+amount;
- state.data.balance=localBalance;state.data.taps_today=Number(state.data.taps_today||0)+1;
- $("dashboardBalance").textContent=fmt(localBalance);$("walletBalance").textContent=fmt(localBalance);$("tapCount").textContent=fmt(state.data.taps_today);
- const dailyCoins=Math.min(state.data.taps_today*amount,1200),pct=Math.min(100,dailyCoins/1200*100);
- ["dailyProgress","tapProgress"].forEach(id=>{if($(id))$(id).style.width=pct+"%";});
- if($("dailyProgressText"))$("dailyProgressText").textContent=fmt(dailyCoins)+" of 1,200 coins earned today";
- if($("tapCoinsToday"))$("tapCoinsToday").textContent=fmt(dailyCoins)+" / 1,200";
- const status=$("tapStatus");if(status)status.textContent="Syncing securely in the background…";
- try{
-  const result=await api("tap");
-  const awarded=Number(result.result?.points_awarded||amount);
-  if(awarded!==amount){localBalance+=awarded-amount;state.data.balance=localBalance;}
-  if(status)status.textContent="Saved successfully";
-  $("dashboardBalance").textContent=fmt(localBalance);$("walletBalance").textContent=fmt(localBalance);
-  // Refresh authoritative counts and ledger without blocking the tap animation.
-  await loadDashboard();
- }catch(err){
-  state.data.balance-=amount;state.data.taps_today=Math.max(0,state.data.taps_today-1);localBalance=state.data.balance;
-  $("dashboardBalance").textContent=fmt(localBalance);$("walletBalance").textContent=fmt(localBalance);$("tapCount").textContent=fmt(state.data.taps_today);
-  if(status)status.textContent="Tap not saved. Please try again.";
-  notice(err.message||"Tap could not be saved.","error");tapCooldownUntil=0;
- }finally{tapBusy=false;}
-}
+function updateTapDisplay(){const amount=Number(state.data?.settings?.tap_points||2),taps=Number(state.data?.taps_today||0),coins=Math.min(taps*amount,1200),pct=Math.min(100,coins/1200*100);if($("dashboardBalance"))$("dashboardBalance").textContent=fmt(localBalance);if($("walletBalance"))$("walletBalance").textContent=fmt(localBalance);if($("tapCount"))$("tapCount").textContent=fmt(taps);["dailyProgress","tapProgress"].forEach(id=>{if($(id))$(id).style.width=pct+"%";});if($("dailyProgressText"))$("dailyProgressText").textContent=fmt(coins)+" of 1,200 coins earned today";if($("tapCoinsToday"))$("tapCoinsToday").textContent=fmt(coins)+" / 1,200";if($("tapStatus"))$("tapStatus").textContent=pendingTapCount||tapFlushBusy?"Saving taps securely…":"All taps saved";}
+function scheduleTapFlush(delay=2500){clearTimeout(tapFlushTimer);tapFlushTimer=setTimeout(flushTapQueue,delay);}
+async function flushTapQueue(){if(tapFlushBusy||pendingTapCount<1)return;tapFlushBusy=true;const batch=Math.min(pendingTapCount,25);pendingTapCount-=batch;try{const result=await api("tap_batch",{tap_count:batch}),saved=Number(result.result?.taps_awarded??batch),amount=Number(state.data?.settings?.tap_points||2);if(saved<batch){const lost=batch-saved;state.data.taps_today=Math.max(0,state.data.taps_today-lost);localBalance-=lost*amount;}const expected=batch*amount,awarded=Number(result.result?.points_awarded??expected);if(awarded!==expected)localBalance+=awarded-expected;state.data.balance=localBalance;}catch(err){const amount=Number(state.data?.settings?.tap_points||2);state.data.taps_today=Math.max(0,state.data.taps_today-batch);localBalance=Math.max(0,localBalance-batch*amount);notice(err.message||"Some taps could not be saved. Please try again.","error");}finally{tapFlushBusy=false;updateTapDisplay();if(pendingTapCount>0)scheduleTapFlush(2500);}}
+function performTap(ev){if(!state.user||!state.data)return;const amount=Number(state.data.settings.tap_points||2),limit=Number(state.data.settings.tap_daily_limit||600);if(Number(state.data.taps_today||0)>=limit){notice("You have reached today's mining limit. Come back tomorrow.","error");return;}const rect=ev.currentTarget.getBoundingClientRect();floatTap(ev.clientX||rect.left+rect.width/2,ev.clientY||rect.top+rect.height/2);document.querySelectorAll(".tap-orb").forEach(o=>{o.classList.add("pressed");setTimeout(()=>o.classList.remove("pressed"),110);});pendingTapCount++;state.data.taps_today=Number(state.data.taps_today||0)+1;localBalance=(localBalance??Number(state.data.balance||0))+amount;state.data.balance=localBalance;updateTapDisplay();scheduleTapFlush(2500);}
 $("tapButton").onclick=performTap;
 document.querySelectorAll(".tap-orb").forEach(orb=>orb.addEventListener("click",performTap));
 $("copyLink").onclick=async()=>{try{await navigator.clipboard.writeText($("refLink").value);notice("Invite link copied!","success");}catch{ $("refLink").select();document.execCommand("copy");notice("Invite link copied!","success");}};
