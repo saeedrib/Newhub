@@ -188,6 +188,10 @@ $("withdrawForm").addEventListener("submit",async e=>{
 });
 $("adminRows").addEventListener("click",async e=>{const b=e.target.closest("[data-review]");if(!b)return;try{await api("review_withdrawal",{request_id:b.dataset.review,status:b.dataset.status,note:"Reviewed by NEWHUB admin"});notice("Withdrawal request updated.","success");await loadAdmin();}catch(err){notice(err.message,"error");}});
 $("profileName").addEventListener("change",async()=>notice("Profile name editing will be enabled after profile update policy is added."));
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("/sw.js", { scope: "/" })
+    .catch(error => console.warn("Monetag service worker registration failed:", error));
+}
 const params=new URLSearchParams(location.search);if(params.get("ref"))$("signupReferral").value=params.get("ref").toUpperCase();
 supabase.auth.onAuthStateChange((_event,session)=>{if(session)showApp().catch(e=>notice(e.message,"error"));else{state.user=null;state.data=null;$("authView").hidden=false;$("appView").hidden=true;$("logoutBtn").hidden=true;syncAdminVisibility();}});
 showApp().catch(e=>notice(e.message,"error"));
