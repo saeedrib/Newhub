@@ -157,6 +157,7 @@ function notice(message, type="info") {
   const el=$("notice");
   if(!el) return;
   el.textContent=message;
+  el.style.bottom=$("appView")&&!$("appView").hidden ? "calc(88px + env(safe-area-inset-bottom))" : "calc(18px + env(safe-area-inset-bottom))";
   el.setAttribute("role", type==="error" ? "alert" : "status");
   el.setAttribute("aria-live", type==="error" ? "assertive" : "polite");
   el.className="notice show "+type;
