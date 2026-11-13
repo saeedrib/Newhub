@@ -116,11 +116,24 @@ table th{color:#60738d!important}
 .install-dismiss{border:0;background:transparent;color:#71839a;font-size:22px;line-height:1;padding:4px}
 #appView:not([hidden])~#installBanner{bottom:calc(84px + env(safe-area-inset-bottom))}
 @media(min-width:700px){.install-banner{bottom:22px!important}}
+
+/* Mandatory install screen: the website stays locked until launched as an installed app */
+#installGate{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#eaf4ff,#f4fbff 55%,#e8faf3);}
+#installGate[hidden]{display:none!important}
+.install-gate-card{width:min(430px,100%);padding:30px 24px;text-align:center;border:1px solid #dce8f3;border-radius:28px;background:#fff;box-shadow:0 22px 70px rgba(34,67,105,.16)}
+.install-gate-icon{width:76px;height:76px;margin:0 auto 18px;display:grid;place-items:center;border-radius:23px;background:linear-gradient(145deg,#fff0ad,#f4b62b);color:#68400b;font-size:40px;font-weight:1000;box-shadow:0 8px 22px #e5a51b35}
+.install-gate-kicker{font-size:10px;font-weight:900;letter-spacing:2px;color:#168f87}
+.install-gate-card h1{margin:10px 0;font-size:27px;letter-spacing:-1px;color:#1c2d45}
+.install-gate-card p{margin:0 auto 22px;max-width:310px;color:#64758e;font-size:13px;line-height:1.7}
+#installAppBtn{width:100%;min-height:52px;border:0;border-radius:15px;background:linear-gradient(120deg,#24bba8,#138f84);color:#fff;font-size:15px;font-weight:900;box-shadow:0 8px 22px #159e9130}
+#installAppBtn:disabled{opacity:.6}
+#installHelp{margin-top:17px;color:#64758e;font-size:11px;line-height:1.7}
+body.install-required{overflow:hidden}
 </style></head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
 <div id="notice" class="notice"></div>
-<div id="installBanner" class="install-banner" hidden><div class="install-copy"><strong>Install NEWHUB App</strong><span>Quick access from your home screen.</span></div><button id="installAppBtn" type="button">Install App</button><button id="dismissInstallBtn" class="install-dismiss" type="button" aria-label="Dismiss install message">×</button></div>
+<section id="installGate" role="dialog" aria-modal="true" aria-labelledby="installGateTitle"><div class="install-gate-card"><div class="install-gate-icon">N</div><div class="install-gate-kicker">WELCOME TO NEWHUB</div><h1 id="installGateTitle">Install NEWHUB App</h1><p>For a faster, easier experience, install NEWHUB on your phone and open it from your home screen.</p><button id="installAppBtn" type="button">Install App</button><div id="installHelp" aria-live="polite">Installation is required before you can use NEWHUB.</div></div></section>
 <section id="authView" class="auth-shell"><div class="auth-card">
  <div class="auth-tabs"><button id="authTabLogin" class="active" type="button">Sign In</button><button id="authTabSignup" type="button">Create Account</button><button id="authTabReset" type="button">Reset</button></div>
  <div id="signupPanel" hidden><h1>Create your account</h1><p>Join NEWHUB and start earning points.</p>
@@ -299,54 +312,57 @@ $("withdrawForm").addEventListener("submit",async e=>{
 $("adminRows").addEventListener("click",async e=>{const b=e.target.closest("[data-review]");if(!b)return;try{await api("review_withdrawal",{request_id:b.dataset.review,status:b.dataset.status,note:"Reviewed by NEWHUB admin"});notice("Withdrawal request updated.","success");await loadAdmin();}catch(err){notice(err.message,"error");}});
 $("profileName").addEventListener("change",async()=>notice("Profile name editing will be enabled after profile update policy is added."));
 
-/* Installable PWA prompt */
+/* Required NEWHUB app installation gate */
 let deferredInstallPrompt=null;
-const installBanner=$("installBanner");
+const installGate=$("installGate");
 const installButton=$("installAppBtn");
+const installHelp=$("installHelp");
 function isAppInstalled(){
   return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true;
 }
-function showInstallBanner(){
-  if(!installBanner||isAppInstalled())return;
-  try{if(localStorage.getItem("newhub-install-dismissed")==="yes")return;}catch(_){}
-  installBanner.hidden=false;
-  installBanner.style.bottom=$("appView")&&!$("appView").hidden?"calc(84px + env(safe-area-inset-bottom))":"calc(18px + env(safe-area-inset-bottom))";
+function updateInstallGate(){
+  if(!installGate)return;
+  const installed=isAppInstalled();
+  installGate.hidden=installed;
+  document.body.classList.toggle("install-required",!installed);
 }
 window.addEventListener("beforeinstallprompt",event=>{
   event.preventDefault();
   deferredInstallPrompt=event;
-  showInstallBanner();
+  if(installHelp)installHelp.textContent="Tap Install App below, then confirm the installation.";
 });
 window.addEventListener("appinstalled",()=>{
   deferredInstallPrompt=null;
-  if(installBanner)installBanner.hidden=true;
-  notice("NEWHUB has been installed successfully. You can open it from your home screen.","success");
+  if(installHelp)installHelp.textContent="NEWHUB is installed. Please open it from your phone’s home screen to continue.";
+  updateInstallGate();
 });
 installButton?.addEventListener("click",async()=>{
   if(deferredInstallPrompt){
-    deferredInstallPrompt.prompt();
-    const choice=await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt=null;
-    if(choice?.outcome==="accepted"){installBanner.hidden=true;}
-    else{notice("Installation was cancelled. You can install NEWHUB whenever you are ready.","info");}
+    installButton.disabled=true;
+    try{
+      deferredInstallPrompt.prompt();
+      const choice=await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt=null;
+      if(choice?.outcome==="accepted"){
+        if(installHelp)installHelp.textContent="Great! Now open NEWHUB from your home screen to start using it.";
+      }else{
+        if(installHelp)installHelp.textContent="Installation was not completed. Please tap Install App and confirm to continue.";
+      }
+    }catch(_){
+      if(installHelp)installHelp.textContent="Please use your browser menu and choose Install app or Add to Home screen.";
+    }finally{installButton.disabled=false;}
     return;
   }
   const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
   if(isIOS){
-    notice("To install NEWHUB: tap the Share button in Safari, then choose “Add to Home Screen”.","info");
+    if(installHelp)installHelp.textContent="On iPhone: tap Share in Safari, choose Add to Home Screen, then open NEWHUB from your home screen.";
   }else{
-    notice("To install NEWHUB: open your browser menu (⋮) and choose “Install app” or “Add to Home screen”.","info");
+    if(installHelp)installHelp.textContent="Open the browser menu (⋮), choose Install app or Add to Home screen, confirm, then open NEWHUB from your home screen.";
   }
 });
-$("dismissInstallBtn")?.addEventListener("click",()=>{
-  installBanner.hidden=true;
-  try{localStorage.setItem("newhub-install-dismissed","yes");}catch(_){}
-});
-if(document.readyState==="loading"){
-  document.addEventListener("DOMContentLoaded",()=>setTimeout(showInstallBanner,900),{once:true});
-}else{
-  setTimeout(showInstallBanner,900);
-}
+updateInstallGate();
+window.addEventListener("pageshow",updateInstallGate);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)updateInstallGate();});
 
 if ("serviceWorker" in navigator && location.protocol === "https:") {
   navigator.serviceWorker.register("/sw.js", { scope: "/" })
