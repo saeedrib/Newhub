@@ -229,11 +229,17 @@ aside{background:rgba(255,255,255,.98)!important;border:1px solid #e2e9f1!import
 .install-card,.install-box{background:#fff!important;color:#20334e!important;border-color:#e3eaf2!important;box-shadow:0 15px 40px rgba(25,55,90,.13)!important}
 .install-title,.install-card h2{color:#173654!important}
 
+
+/* Optional install card — never blocks website access */
+.install-promo{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 12px;padding:16px;background:linear-gradient(120deg,#f0faf7,#f3f8ff)!important;border:1px solid #dceee8!important}
+.install-promo-copy{min-width:0;flex:1}.install-promo h2{font-size:14px;margin:5px 0;color:#173654}.install-promo p{margin:5px 0}.install-promo #installHelp{font-size:10px;line-height:1.45;margin-top:6px}.install-promo-actions{display:flex;flex-direction:column;align-items:stretch;gap:3px;min-width:104px}.install-promo-actions .btn{padding:11px 12px;font-size:11px;white-space:nowrap}.install-promo-actions .switch{padding:7px 0;font-size:10px;color:#728198}
+@media(max-width:380px){.install-promo{align-items:flex-start;flex-direction:column}.install-promo-actions{width:100%;flex-direction:row;align-items:center}.install-promo-actions .btn{flex:1}}
+
 </style></head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
 <div id="notice" class="notice"></div>
-<section id="installGate" hidden role="dialog" aria-modal="true" aria-labelledby="installGateTitle"><div class="install-gate-card"><div class="install-gate-icon" aria-hidden="true"></div><div class="install-gate-kicker">YOUR REWARDS ARE WAITING</div><h1 id="installGateTitle">Get the NEWHUB App</h1><p>Install NEWHUB on your phone for a faster, app-like experience. Open it from your home screen to unlock mining.</p><button id="installAppBtn" type="button"><span>⬇</span><span>INSTALL NEWHUB</span></button><div id="installProgress" class="install-progress" hidden><span></span></div><div id="installHelp" aria-live="polite">Tap Install NEWHUB. If your browser shows a confirmation, choose Install and wait for it to finish.</div></div></section>
+
 <section id="authView" class="auth-shell"><div class="auth-card">
  <div class="auth-tabs"><button id="authTabSignup" class="active" type="button">Register</button><button id="authTabLogin" type="button">Login</button><button id="authTabReset" type="button">Reset</button></div>
  <div id="signupPanel"><h1>Create your account</h1><p>Join NEWHUB and start earning points.</p>
@@ -253,6 +259,7 @@ aside{background:rgba(255,255,255,.98)!important;border:1px solid #e2e9f1!import
 <main class="main"><div class="mainhead"><h1 id="pageTitle">Home</h1><button class="btn ghost" id="refreshBtn" onclick="location.reload()">Refresh</button></div>
 <div data-page="dashboard" class="home-screen" hidden>
 <div class="welcome-hero"><div class="eyebrow">WELCOME TO NEWHUB</div><h2>Every Tap Counts.<br>Every Day, Grow.</h2><p>Earn points with every tap, invite your friends, and build your rewards with NEWHUB.</p></div>
+<div class="card install-promo" id="installPromo"><div class="install-promo-copy"><span class="eyebrow">OPTIONAL APP INSTALL</span><h2>Use NEWHUB like an app</h2><p class="hint">Add NEWHUB to your home screen for quick access. You can also keep using this website without installing.</p><div id="installHelp" class="hint" aria-live="polite">Installation is optional. Tap below only if you want the app on your home screen.</div></div><div class="install-promo-actions"><button class="btn cyan" id="installAppBtn" type="button">Install App</button><button class="switch" id="installDismiss" type="button">Not now</button></div></div>
 <div class="home-balance"><div><span class="label">TOTAL POINTS</span><div class="big" id="dashboardBalance">0</div></div><span class="balance-mark">N</span></div>
 <div class="home-miner"><div class="miner-top"><span>⚡ DAILY MINING</span><b id="dailyProgressText">0 / 5,600</b></div><div class="daily-progress"><span id="dailyProgress"></span></div><div class="tap-orb" id="homeTapOrb" role="button" aria-label="Tap to earn points"><span class="coin-mark">N</span></div><div class="miner-caption">TAP THE COIN • EARN 2 POINTS</div><p class="hint">Install NEWHUB App before start mining ⛏️ 2026.</p><p class="hint">Earn 2 points with every tap. Keep going and reach your daily goal.</p><button class="btn" id="homeTapButton">START MINING ⛏️ 2026</button></div>
 <div class="home-stats"><div><span class="label">TAPS TODAY</span><b id="tapCount">0</b></div><div><span class="label">FRIENDS</span><b id="refCount">0</b></div><div><span class="label">INVITE REWARD</span><b>20K</b></div></div>
@@ -350,8 +357,7 @@ function syncAdminVisibility(){
 }
 function showPage(page) {
   if(page==="admin"&&state.data?.profile?.role!=="admin")page="dashboard";
-  if(page==="tap"&&!isAppInstalled()){showInstallGate();return;}
-  state.page=page;
+    state.page=page;
   document.querySelectorAll("[data-page]").forEach(x=>x.hidden=x.dataset.page!==page);
   document.querySelectorAll("[data-nav]").forEach(x=>{if(x.dataset.nav!=="admin")x.hidden=false;x.classList.toggle("active",x.dataset.nav===page);});
   $("pageTitle").textContent=({dashboard:"Home",tap:"Tap & Earn",invite:"Invite Friends",wallet:"My Wallet",withdraw:"Withdraw",profile:"My Profile",admin:"Admin Dashboard"})[page]||"NEWHUB";
@@ -402,7 +408,7 @@ function floatTap(x,y){const el=document.createElement("span");el.className="flo
 function updateTapDisplay(){const amount=Number(state.data?.settings?.tap_points||2),limit=Number(state.data?.settings?.tap_daily_limit||2800),taps=Number(state.data?.taps_today||0),cap=limit*amount,coins=Math.min(taps*amount,cap),pct=Math.min(100,coins/cap*100);if($("dashboardBalance"))$("dashboardBalance").textContent=fmt(localBalance);if($("walletBalance"))$("walletBalance").textContent=fmt(localBalance);if($("tapCount"))$("tapCount").textContent=fmt(taps);["dailyProgress","tapProgress"].forEach(id=>{if($(id))$(id).style.width=pct+"%";});if($("dailyProgressText"))$("dailyProgressText").textContent=fmt(coins)+" / "+fmt(cap)+" points mined today";if($("tapCoinsToday"))$("tapCoinsToday").textContent=fmt(coins)+" / "+fmt(cap);if($("tapStatus"))$("tapStatus").textContent=pendingTapCount||tapFlushBusy?"Saving taps securely…":"All taps saved";}
 function scheduleTapFlush(delay=2500){clearTimeout(tapFlushTimer);tapFlushTimer=setTimeout(flushTapQueue,delay);}
 async function flushTapQueue(){if(tapFlushBusy||pendingTapCount<1)return;tapFlushBusy=true;const batch=Math.min(pendingTapCount,25);pendingTapCount-=batch;try{const result=await api("tap_batch",{tap_count:batch}),saved=Number(result.result?.taps_awarded??batch),amount=Number(state.data?.settings?.tap_points||2);if(saved<batch){const lost=batch-saved;state.data.taps_today=Math.max(0,state.data.taps_today-lost);localBalance-=lost*amount;}const expected=batch*amount,awarded=Number(result.result?.points_awarded??expected);if(awarded!==expected)localBalance+=awarded-expected;state.data.balance=localBalance;}catch(err){const amount=Number(state.data?.settings?.tap_points||2);state.data.taps_today=Math.max(0,state.data.taps_today-batch);localBalance=Math.max(0,localBalance-batch*amount);notice(err.message||"Some taps could not be saved. Please try again.","error");}finally{tapFlushBusy=false;updateTapDisplay();if(pendingTapCount>0)scheduleTapFlush(2500);}}
-function performTap(ev){if(!state.user||!state.data)return;if(!isAppInstalled()){showInstallGate();return;}if(typeof navigator.vibrate==="function")navigator.vibrate([25,18,35]);const amount=Number(state.data.settings.tap_points||2),limit=Number(state.data.settings.tap_daily_limit||2800);if(Number(state.data.taps_today||0)>=limit){notice("You have reached today's mining limit. Come back tomorrow.","error");return;}const rect=ev.currentTarget.getBoundingClientRect();floatTap(ev.clientX||rect.left+rect.width/2,ev.clientY||rect.top+rect.height/2);document.querySelectorAll(".tap-orb").forEach(o=>{o.classList.add("pressed");setTimeout(()=>o.classList.remove("pressed"),110);});pendingTapCount++;state.data.taps_today=Number(state.data.taps_today||0)+1;localBalance=(localBalance??Number(state.data.balance||0))+amount;state.data.balance=localBalance;updateTapDisplay();scheduleTapFlush(2500);}
+function performTap(ev){if(!state.user||!state.data)return;if(typeof navigator.vibrate==="function")navigator.vibrate([25,18,35]);const amount=Number(state.data.settings.tap_points||2),limit=Number(state.data.settings.tap_daily_limit||2800);if(Number(state.data.taps_today||0)>=limit){notice("You have reached today's mining limit. Come back tomorrow.","error");return;}const rect=ev.currentTarget.getBoundingClientRect();floatTap(ev.clientX||rect.left+rect.width/2,ev.clientY||rect.top+rect.height/2);document.querySelectorAll(".tap-orb").forEach(o=>{o.classList.add("pressed");setTimeout(()=>o.classList.remove("pressed"),110);});pendingTapCount++;state.data.taps_today=Number(state.data.taps_today||0)+1;localBalance=(localBalance??Number(state.data.balance||0))+amount;state.data.balance=localBalance;updateTapDisplay();scheduleTapFlush(2500);}
 $("tapButton").onclick=performTap;
 document.querySelectorAll(".tap-orb").forEach(orb=>orb.addEventListener("click",performTap));
 function inviteShareText(){return "Join me on NEWHUB! Earn points by tapping and inviting friends. Sign up using my personal invite link: "+$("refLink").value;}
@@ -418,67 +424,43 @@ $("withdrawForm").addEventListener("submit",async e=>{
 $("adminRows").addEventListener("click",async e=>{const b=e.target.closest("[data-review]");if(!b)return;try{await api("review_withdrawal",{request_id:b.dataset.review,status:b.dataset.status,note:"Reviewed by NEWHUB admin"});notice("Withdrawal request updated.","success");await loadAdmin();}catch(err){notice(err.message,"error");}});
 $("profileName").addEventListener("change",async()=>notice("Profile name editing will be enabled after profile update policy is added."));
 
-/* NEWHUB install flow: clear, honest feedback for browser-controlled installation */
+/* Optional PWA install: users can install or dismiss; site remains fully usable */
 let deferredInstallPrompt=null;
-const installGate=$("installGate"),installButton=$("installAppBtn"),installHelp=$("installHelp"),installProgress=$("installProgress");
-let installGateRequested=false,installWaiting=false;
+const installPromo=$("installPromo"),installButton=$("installAppBtn"),installHelp=$("installHelp");
 function isAppInstalled(){return window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;}
-function showInstallGate(){if(isAppInstalled())return false;installGateRequested=true;updateInstallGate();return true;}
-function updateInstallGate(){if(!installGate)return;const installed=isAppInstalled();installGate.hidden=installed||!installGateRequested;document.body.classList.toggle("install-required",!installed&&installGateRequested);}
-function installStatus(message,mode="idle"){
- if(installHelp)installHelp.textContent=message;
- if(installProgress)installProgress.hidden=mode!=="loading";
- if(installButton){
-  installButton.disabled=mode==="waiting";
-  installButton.innerHTML=mode==="loading"?'<span class="install-spinner" aria-hidden="true"></span><span>PREPARING INSTALL…</span>':mode==="waiting"?'<span class="install-spinner" aria-hidden="true"></span><span>WAITING FOR CONFIRMATION…</span>':mode==="accepted"?'<span>✓</span><span>INSTALL REQUEST ACCEPTED</span>':'<span>⬇</span><span>INSTALL NEWHUB</span>';
- }
-}
+function setInstallHelp(message){if(installHelp)installHelp.textContent=message;}
+function updateInstallPromo(){if(!installPromo)return;installPromo.hidden=isAppInstalled();}
 window.addEventListener("beforeinstallprompt",event=>{
  event.preventDefault();deferredInstallPrompt=event;
- if(installHelp)installHelp.textContent="NEWHUB is ready. Tap Install NEWHUB, then confirm the install window from your browser.";
+ setInstallHelp("NEWHUB can be installed on your phone. This is optional — the website works without it.");
 });
 window.addEventListener("appinstalled",()=>{
- deferredInstallPrompt=null;installWaiting=false;
- installStatus("NEWHUB has been installed successfully. Open it from your home screen to start mining.","accepted");
- if(installProgress)installProgress.hidden=true;
- updateInstallGate();
+ deferredInstallPrompt=null;
+ setInstallHelp("NEWHUB was installed successfully. You can open it from your home screen.");
+ updateInstallPromo();
 });
 installButton?.addEventListener("click",async()=>{
- if(isAppInstalled()){updateInstallGate();return;}
- if(installWaiting)return;
+ if(isAppInstalled()){updateInstallPromo();return;}
  if(deferredInstallPrompt){
-  const promptEvent=deferredInstallPrompt;deferredInstallPrompt=null;installWaiting=true;
-  installStatus("Opening the secure installation confirmation. Please choose Install in the window that appears.","waiting");
-  if(installProgress)installProgress.hidden=false;
+  const promptEvent=deferredInstallPrompt;deferredInstallPrompt=null;
+  installButton.disabled=true;installButton.textContent="Opening install…";
   try{
    await promptEvent.prompt();
    const choice=await promptEvent.userChoice;
-   installWaiting=false;
-   if(choice?.outcome==="accepted"){
-    installStatus("Great! Your browser accepted the installation request. Wait for the browser to finish, then open NEWHUB from your home screen.","accepted");
-    if(installProgress)installProgress.hidden=false;
-   }else{
-    installStatus("Installation was cancelled. Nothing has been installed yet. Tap INSTALL NEWHUB to try again.");
-   }
-  }catch(error){
-   installWaiting=false;
-   installStatus("The browser did not open its install window. Use the browser menu (⋮) and select Install app or Add to Home screen.");
-  }
+   if(choice?.outcome==="accepted")setInstallHelp("Install request accepted. Follow your browser's confirmation to finish.");
+   else setInstallHelp("No problem. You can keep using NEWHUB in your browser.");
+  }catch(error){setInstallHelp("Your browser did not open the install prompt. Use its menu and choose Install app or Add to Home screen if you wish.");}
+  finally{installButton.disabled=false;installButton.textContent="Install App";}
   return;
  }
  const ua=navigator.userAgent,isIOS=/iphone|ipad|ipod/i.test(ua),isAndroid=/android/i.test(ua);
- if(isIOS){
-  installStatus("To install on iPhone: open this page in Safari, tap Share, choose Add to Home Screen, then tap Add.");
- }else if(isAndroid){
-  installStatus("Your browser has not provided its install window yet. In Chrome, tap ⋮ (top corner), choose Install app or Add to Home screen, then confirm. The browser controls the installation.");
- }else{
-  installStatus("Open your browser menu and choose Install NEWHUB or Add to Home screen. Installation is controlled by your browser.");
- }
+ if(isIOS)setInstallHelp("Optional: open this page in Safari, tap Share, then choose Add to Home Screen.");
+ else if(isAndroid)setInstallHelp("Optional: in Chrome, tap the menu (⋮), then choose Install app or Add to Home screen.");
+ else setInstallHelp("Optional: open your browser menu and choose Install app or Add to Home screen, if available.");
 });
-
-updateInstallGate();
-window.addEventListener("pageshow",updateInstallGate);
-document.addEventListener("visibilitychange",()=>{if(!document.hidden)updateInstallGate();});
+$("installDismiss")?.addEventListener("click",()=>{if(installPromo)installPromo.hidden=true;});
+updateInstallPromo();
+window.addEventListener("pageshow",updateInstallPromo);
 
 if ("serviceWorker" in navigator && location.protocol === "https:") {
   navigator.serviceWorker.register("/sw.js", { scope: "/" })
