@@ -88,6 +88,23 @@ table th{color:#60738d!important}
 .share-btn{font-size:12px}
 .navbtn{font-size:10px}
 @media(max-width:380px){#notice{bottom:calc(84px + env(safe-area-inset-bottom))!important;font-size:12px!important}.navbtn{font-size:9px}}
+
+/* Accessible notification placement and consistent light-theme contrast */
+#notice{top:auto!important;bottom:calc(18px + env(safe-area-inset-bottom))!important;display:none;max-width:460px;width:calc(100% - 28px);min-height:54px;padding:15px 16px 15px 48px;align-items:center;line-height:1.55;white-space:normal;overflow-wrap:anywhere;z-index:10000}
+#notice.show{display:flex!important}
+#appView:not([hidden])~#notice{bottom:calc(88px + env(safe-area-inset-bottom))!important}
+#notice.error{background:#3b1d2a!important;color:#fff!important;border:1px solid #a9445b!important;border-left:5px solid #ff7188!important}
+#notice.success{background:#123b30!important;color:#fff!important;border:1px solid #28785e!important;border-left:5px solid #3bd49a!important}
+#notice.info{background:#17324e!important;color:#fff!important;border:1px solid #426482!important;border-left:5px solid #49b9d1!important}
+.auth-card p,.hint,.field label,.field input,.field select,.switch,.mainhead h1,.mainhead .hint,.card h2,.card p,.card label,.label,.eyebrow,.miner-caption,.tap-status,.tap-meta,.miner-top,.invite-progress-label,.home-invite p,.home-invite h2,.share-btn,.linkrow input,table th,table td{ text-shadow:none!important }
+.auth-card p,.hint,.welcome-hero p,.home-invite p,.tap-meta,.miner-top,.mainhead .hint{color:#536781!important}
+.field label,.label,.invite-progress-label,table th{color:#425873!important}
+.field input,.field select,.linkrow input{color:#172b45!important;background:#fff!important;border-color:#cbd8e8!important}
+.field input::placeholder,.field select:invalid{color:#71839b!important;opacity:1}
+.btn.ghost{color:#243c58!important;background:#edf3fa!important;border-color:#cbd8e8!important}
+.share-btn{color:#243c58!important;background:#f4f8fd!important}
+.status{font-weight:800}
+@media(max-width:480px){#notice{font-size:13px!important;padding:14px 14px 14px 45px!important}}
 </style></head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
@@ -137,8 +154,14 @@ let state = { user:null, data:null, page:"dashboard" };
 let localBalance=null, pendingTapCount=0, tapFlushTimer=null, tapFlushBusy=false;
 
 function notice(message, type="info") {
-  const el=$("notice"); el.textContent=message; el.className="notice show "+type;
-  window.clearTimeout(notice.timer); notice.timer=window.setTimeout(()=>el.className="notice",5000);
+  const el=$("notice");
+  if(!el) return;
+  el.textContent=message;
+  el.setAttribute("role", type==="error" ? "alert" : "status");
+  el.setAttribute("aria-live", type==="error" ? "assertive" : "polite");
+  el.className="notice show "+type;
+  window.clearTimeout(notice.timer);
+  notice.timer=window.setTimeout(()=>{el.className="notice";},6500);
 }
 function esc(value="") { return String(value).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 function fmt(n) { return Number(n||0).toLocaleString("en-NG"); }
@@ -220,7 +243,7 @@ $("signupForm").addEventListener("submit",async e=>{
  }catch(err){notice(err.message,"error");}finally{btn.disabled=false;}
 });
 $("loginForm").addEventListener("submit",async e=>{
- e.preventDefault();const btn=$("loginForm").querySelector("button");if(btn)btn.disabled=true;try{const email=$("loginEmail").value.trim().toLowerCase(),password=$("loginPassword").value;const {error}=await supabase.auth.signInWithPassword({email,password});if(error){if(/invalid login credentials/i.test(error.message))throw new Error("Incorrect email or password. Click Forgot password? to reset your password using your email.");throw error;}notice("Login successful. Welcome back!","success");await showApp();}catch(err){notice(err.message,"error");}finally{if(btn)btn.disabled=false;}
+ e.preventDefault();const btn=$("loginForm").querySelector("button");if(btn)btn.disabled=true;try{const email=$("loginEmail").value.trim().toLowerCase(),password=$("loginPassword").value;const {error}=await supabase.auth.signInWithPassword({email,password});if(error){if(/invalid login credentials/i.test(error.message))throw new Error("The email address or password is incorrect. Please check your details and try again. If you forgot your password, select “Forgot password?”.");throw error;}notice("Login successful. Welcome back!","success");await showApp();}catch(err){notice(err.message,"error");}finally{if(btn)btn.disabled=false;}
 });
 function setAuthTab(tab){
  $("loginPanel").hidden=tab!=="login";$("signupPanel").hidden=tab!=="signup";$("resetPanel").hidden=tab!=="reset";
