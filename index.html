@@ -3,7 +3,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 :root{color-scheme:dark;--bg:#060913;--panel:rgba(18,26,46,.72);--line:rgba(255,255,255,.08);--text:#f5f7ff;--muted:#8996b2;--gold:#ffbd22;--cyan:#00f0ff;--green:#37e2b1}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif}body{min-height:100dvh;background:radial-gradient(circle at 50% 27%,rgba(214,145,24,.12),transparent 25rem),radial-gradient(circle at 50% 100%,rgba(0,240,255,.11),transparent 28rem),#060913;font-variant-numeric:tabular-nums}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}[hidden]{display:none!important}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif}body{min-height:100dvh;background:radial-gradient(circle at 50% 27%,rgba(214,145,24,.12),transparent 25rem),radial-gradient(circle at 50% 100%,rgba(0,240,255,.11),transparent 28rem),#060913;font-variant-numeric:tabular-nums}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}[hidden],[hidden]:not(html):not(body){display:none!important}#authView[hidden],#appView[hidden],#loginPanel[hidden],#signupPanel[hidden],#resetPanel[hidden],#verifyResetCodeForm[hidden],#sendResetCodeForm[hidden],[data-page][hidden]{display:none!important}
 header{height:58px;position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:center;background:rgba(6,9,19,.7);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.05)}.brand{font-size:21px;font-weight:900;letter-spacing:-1px}.brand span{color:#ffd15b}.header-right{display:none}
 #notice{display:none;position:fixed;z-index:100;top:70px;left:50%;transform:translateX(-50%);width:min(440px,calc(100% - 28px));padding:13px 16px;border:1px solid var(--line);border-radius:15px;background:#172238;color:#fff;box-shadow:0 12px 35px #0009;font-size:13px}#notice.show{display:block}#notice.success{border-color:#16785e}#notice.error{border-color:#9b3444}
 .auth-shell{min-height:100dvh;display:grid;place-items:center;padding:78px 16px 30px}.auth-card{width:min(430px,100%);padding:28px 24px;border:1px solid rgba(255,255,255,.1);border-radius:26px;background:rgba(18,26,46,.78);backdrop-filter:blur(22px);box-shadow:0 25px 90px #0008,0 0 50px #00f0ff0a}.auth-card:before{content:"NEWHUB MEMBER ACCESS";display:block;color:#ffd15b;font-size:10px;font-weight:900;letter-spacing:2px;margin-bottom:18px}.auth-card h1{font-size:27px;letter-spacing:-1px;margin:0 0 7px}.auth-card p,.hint{color:var(--muted);font-size:12px;line-height:1.7}.field{display:grid;gap:8px;margin:14px 0}.field label{font-size:11px;font-weight:800;color:#b8c4d9}.field input,.field select{width:100%;min-height:48px;padding:13px 14px;border-radius:13px;border:1px solid rgba(255,255,255,.1);background:rgba(4,9,22,.72);color:#fff;outline:none}.field input:focus,.field select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #00f0ff20,0 0 18px #00f0ff12}.auth-tabs{display:flex;gap:5px;padding:4px;margin:18px 0 20px;border-radius:14px;background:#080e1d}.auth-tabs button{flex:1;border:0;border-radius:10px;padding:10px 4px;background:transparent;color:#8290a9;font-size:11px;font-weight:800}.auth-tabs button.active{background:linear-gradient(120deg,#29344b,#1a2940);color:#fff;box-shadow:0 3px 12px #0005}.btn{border:1px solid transparent;border-radius:14px;padding:13px 18px;background:linear-gradient(135deg,#fff099 0%,#ffb800 48%,#e67300 100%);color:#281800;font-weight:900;box-shadow:inset 0 1px 1px #fff9,0 7px 24px #f5a40030}.btn:active{transform:scale(.97)}.btn:disabled{opacity:.55;cursor:not-allowed}.btn.cyan{background:linear-gradient(120deg,#00f0ff,#00aebd);color:#04121a;box-shadow:0 6px 24px #00f0ff25}.btn.ghost{background:rgba(255,255,255,.06);border-color:var(--line);color:#dbe7fa;box-shadow:none}.switch{border:0;background:none;color:var(--cyan);font-size:11px;font-weight:800;padding:12px 0}
@@ -41,7 +41,7 @@ aside{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(
 <button class="navbtn" data-nav="profile" aria-label="Profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Profile</span></button>
 </aside>
 <main class="main"><div class="mainhead"><h1 id="pageTitle">Home</h1><button class="btn ghost" id="refreshBtn" onclick="location.reload()">Refresh</button></div>
-<div data-page="dashboard" class="home-screen">
+<div data-page="dashboard" class="home-screen" hidden>
 <div class="welcome-hero"><div class="eyebrow">NEWHUB • YOUR DAILY REWARDS</div><h2>Tap. Earn.<br>Move forward.</h2><p>Mine points every day and grow your NEWHUB community.</p></div>
 <div class="home-balance"><div><span class="label">TOTAL POINTS</span><div class="big" id="dashboardBalance">0</div></div><span class="balance-mark">N</span></div>
 <div class="home-miner"><div class="miner-top"><span>⚡ DAILY MINING</span><b id="dailyProgressText">0 / 5,600</b></div><div class="daily-progress"><span id="dailyProgress"></span></div><div class="tap-orb" id="homeTapOrb" role="button" aria-label="Tap to earn points"><span class="coin-mark">N</span></div><div class="miner-caption">TAP THE COIN TO EARN</div><p class="hint">2 points per tap • Up to 2,800 taps daily</p><button class="btn" id="homeTapButton">OPEN TAP ARENA</button></div>
@@ -58,4 +58,136 @@ aside{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(
 <script>(function(s){s.dataset.zone='12238095',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 <!-- Monetag Vignette ad -->
 <script>(function(s){s.dataset.zone='12238513',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script type="module" src="./app.js"></script></body></html>
+<script type="module">\nimport { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
+
+const SUPABASE_URL = "https://gwjajtiagesuzbyxmooq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_OLbgnp2TxUO-JW56tSryhA_BcRnpgGT";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const $ = (id) => document.getElementById(id);
+let state = { user:null, data:null, page:"dashboard" };
+let localBalance=null, pendingTapCount=0, tapFlushTimer=null, tapFlushBusy=false;
+
+function notice(message, type="info") {
+  const el=$("notice"); el.textContent=message; el.className="notice show "+type;
+  window.clearTimeout(notice.timer); notice.timer=window.setTimeout(()=>el.className="notice",5000);
+}
+function esc(value="") { return String(value).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function fmt(n) { return Number(n||0).toLocaleString("en-NG"); }
+async function api(action, extra={}) {
+  const {data:{session}}=await supabase.auth.getSession();
+  if(!session) throw new Error("Please sign in again.");
+  const {data,error}=await supabase.functions.invoke("newhub-api",{body:{action,...extra}});
+  if(error) throw error;
+  if(data?.error) throw new Error(data.error);
+  return data;
+}
+async function loadDashboard() {
+  state.data=await api("dashboard");
+  $("accountName")&&($("accountName").textContent=state.data.profile.display_name||state.data.profile.email);
+  $("accountEmail").textContent=state.data.profile.email||"";$("profileName").value=state.data.profile.display_name||"";$("profileEmail").value=state.data.profile.email||"";$("logoutBtn").hidden=false;
+  localBalance=Number(state.data.balance||0);$("dashboardBalance").textContent=fmt(localBalance);$("walletBalance").textContent=fmt(localBalance);
+  $("tapCount").textContent=fmt(state.data.taps_today);
+  document.querySelectorAll("#refCount").forEach(el=>el.textContent=fmt(state.data.referrals));
+  $("refCode").textContent=state.data.profile.referral_code;
+  $("refLink").value="https://newhub-omega.vercel.app/?ref="+encodeURIComponent(state.data.profile.referral_code);
+  $("tapReward").textContent=state.data.settings.tap_points+" coins per tap";
+  if($("tapButton"))$("tapButton").title="Earn "+state.data.settings.tap_points+" coins per tap";
+  if($("dailyLimit"))$("dailyLimit").textContent=state.data.settings.tap_daily_limit;
+  const dailyLimit=Number(state.data.settings.tap_daily_limit||2800),dailyCap=dailyLimit*Number(state.data.settings.tap_points||2);
+  const dailyCoins=Math.min(state.data.taps_today*state.data.settings.tap_points,dailyCap);
+  const dailyPct=Math.min(100,(dailyCoins/dailyCap)*100);
+  if($("dailyProgress"))$("dailyProgress").style.width=dailyPct+"%";
+  if($("dailyProgressText"))$("dailyProgressText").textContent=fmt(dailyCoins)+" / "+fmt(dailyCap)+" points mined today";
+  if($("tapCoinsToday"))$("tapCoinsToday").textContent=fmt(dailyCoins)+" / "+fmt(dailyCap);
+  if($("tapProgress"))$("tapProgress").style.width=dailyPct+"%";
+  const inviteGoal=state.data.settings.referral_milestone_count||35;
+  const inviteReward=state.data.settings.referral_milestone_points||20000;
+  const invitePct=Math.min(100,(state.data.referrals/inviteGoal)*100);
+  if($("inviteProgress"))$("inviteProgress").style.width=invitePct+"%";
+  if($("inviteProgressLabel"))$("inviteProgressLabel").textContent=fmt(state.data.referrals)+" / "+fmt(inviteGoal)+" friends";
+  if($("inviteProgressText"))$("inviteProgressText").textContent=state.data.referral_milestone?"Reward credited: "+fmt(state.data.referral_milestone.points_awarded)+" coins on "+new Date(state.data.referral_milestone.qualified_at).toLocaleDateString()+".":state.data.referrals>=inviteGoal?"Milestone reached. Reward processing status is being checked.":fmt(inviteGoal-state.data.referrals)+" more friends to reach your "+fmt(inviteReward)+"-coin reward milestone.";
+  $("minWithdraw").textContent=fmt(state.data.settings.withdrawal_min_points);
+  $("dashboardLedgerRows").innerHTML=state.data.ledger.length?state.data.ledger.map(x=>`<tr><td>${esc(x.reason.replaceAll("_"," "))}</td><td class="${x.points>0?"positive":"negative"}">${x.points>0?"+":""}${fmt(x.points)}</td><td>${new Date(x.created_at).toLocaleString()}</td></tr>`).join(""):'<tr><td colspan="3">No wallet activity yet.</td></tr>';
+  $("walletLedgerRows").innerHTML=$("dashboardLedgerRows").innerHTML;
+  $("withdrawRows").innerHTML=state.data.withdrawals.length?state.data.withdrawals.map(x=>`<tr><td>${fmt(x.points_requested)}</td><td><span class="status ${esc(x.status)}">${esc(x.status)}</span></td><td>${new Date(x.created_at).toLocaleDateString()}</td><td>${esc(x.admin_note||"—")}</td></tr>`).join(""):'<tr><td colspan="4">No withdrawal requests yet.</td></tr>';
+  syncAdminVisibility();
+}
+async function showApp() {
+  state.user=(await supabase.auth.getUser()).data.user;
+  if(!state.user){$("authView").hidden=false;$("appView").hidden=true;$("logoutBtn").hidden=true;syncAdminVisibility();return;}
+  $("authView").hidden=true;$("appView").hidden=false;
+  await loadDashboard(); showPage(state.page==="admin"?"dashboard":state.page);
+}
+function syncAdminVisibility(){
+ const allowed=!!state.user&&state.data?.profile?.role==="admin";
+ const button=$("profileAdminBtn");
+ if(button)button.hidden=!allowed;
+ const section=document.querySelector('[data-page="admin"]');
+ if(section){section.classList.add("admin-only");section.style.setProperty("display",allowed?"block":"none","important");}
+}
+function showPage(page) {
+  if(page==="admin"&&state.data?.profile?.role!=="admin")page="dashboard";
+  state.page=page;
+  document.querySelectorAll("[data-page]").forEach(x=>x.hidden=x.dataset.page!==page);
+  document.querySelectorAll("[data-nav]").forEach(x=>{if(x.dataset.nav!=="admin")x.hidden=false;x.classList.toggle("active",x.dataset.nav===page);});
+  $("pageTitle").textContent=({dashboard:"Home",tap:"Tap & Earn",invite:"Invite Friends",wallet:"My Wallet",withdraw:"Withdraw",profile:"My Profile",admin:"Admin Dashboard"})[page]||"NEWHUB";
+  if(page==="admin") loadAdmin().catch(e=>notice(e.message,"error"));
+}
+async function loadAdmin(){
+  const d=await api("admin");
+  $("adminUsers").textContent=fmt(d.users.length);$("adminRequests").textContent=fmt(d.requests.filter(x=>x.status==="pending").length);$("adminPoints").textContent=fmt(d.total_points_issued);
+  $("adminRows").innerHTML=d.requests.length?d.requests.map(x=>`<tr><td>${esc(x.user_id.slice(0,8))}</td><td>${fmt(x.points_requested)}</td><td>${esc(x.status)}</td><td>${new Date(x.created_at).toLocaleDateString()}</td><td>${x.status==="pending"?`<button class="mini success" data-review="${x.id}" data-status="approved">Approve</button> <button class="mini danger" data-review="${x.id}" data-status="rejected">Reject</button>`:"—"}</td></tr>`).join(""):'<tr><td colspan="5">No requests yet.</td></tr>';
+}
+document.querySelectorAll("[data-nav]").forEach(x=>x.addEventListener("click",()=>showPage(x.dataset.nav)));
+$("signupForm").addEventListener("submit",async e=>{
+ e.preventDefault(); const btn=$("signupBtn");btn.disabled=true;
+ try{
+  const name=$("signupName").value.trim(),email=$("signupEmail").value.trim(),password=$("signupPassword").value;
+  const referral=$("signupReferral").value.trim().toUpperCase();
+  const {data,error}=await supabase.auth.signUp({email,password,options:{data:{display_name:name,referral_code:referral||null}}});
+  if(error) throw error;
+  if(data.session){notice("Account created. Welcome to NEWHUB!","success");await showApp();}
+  else notice("Registration received. Please check your email for a confirmation link before signing in.","success");
+ }catch(err){notice(err.message,"error");}finally{btn.disabled=false;}
+});
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();const btn=$("loginForm").querySelector("button");if(btn)btn.disabled=true;try{const email=$("loginEmail").value.trim().toLowerCase(),password=$("loginPassword").value;const {error}=await supabase.auth.signInWithPassword({email,password});if(error){if(/invalid login credentials/i.test(error.message))throw new Error("Email ko password bai dace ba. Ka danna Forgot password? domin ka saita sabon password ta email.");throw error;}notice("An shiga account cikin nasara.","success");await showApp();}catch(err){notice(err.message,"error");}finally{if(btn)btn.disabled=false;}
+});
+function setAuthTab(tab){
+ $("loginPanel").hidden=tab!=="login";$("signupPanel").hidden=tab!=="signup";$("resetPanel").hidden=tab!=="reset";
+ [["authTabLogin","login"],["authTabSignup","signup"],["authTabReset","reset"]].forEach(([id,key])=>$(id)?.classList.toggle("active",key===tab));
+ if(tab==="reset"){$("verifyResetCodeForm").hidden=true;$("sendResetCodeForm").hidden=false;}
+}
+$("authTabLogin").onclick=()=>setAuthTab("login");
+$("authTabSignup").onclick=()=>setAuthTab("signup");
+$("authTabReset").onclick=()=>{const email=$("loginEmail").value.trim().toLowerCase();if(email)$("resetEmail").value=email;setAuthTab("reset");};
+$("showLogin").onclick=()=>setAuthTab("login");
+$("forgotPassword").onclick=()=>{const email=$("loginEmail").value.trim().toLowerCase();$("resetEmail").value=email;setAuthTab("reset");};
+$("sendResetCodeForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("resetEmail").value.trim().toLowerCase(),b=$("sendResetCodeBtn");b.disabled=true;try{const {error}=await supabase.auth.resetPasswordForEmail(email);if(error)throw error;$("verifyResetCodeForm").hidden=false;$("sendResetCodeForm").hidden=true;notice("An aika recovery code zuwa Gmail. Duba Inbox da Spam.","success");$("resetCode").focus();}catch(err){notice(err.message||"Ba a iya aika code ba. Ka sake gwadawa.","error");}finally{b.disabled=false;}});
+$("verifyResetCodeForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("resetEmail").value.trim().toLowerCase(),token=$("resetCode").value.trim(),password=$("newPassword").value,confirm=$("confirmNewPassword").value,b=$("saveNewPasswordBtn");if(password!==confirm){notice("Sabon password da tabbatarwa ba su yi daidai ba.","error");return;}if(!/^\\d{6}$/.test(token)){notice("Shigar da code mai lambobi 6 daga Gmail.","error");return;}b.disabled=true;try{const {data,error}=await supabase.auth.verifyOtp({email,token,type:"recovery"});if(error)throw error;if(!data.session)throw new Error("Code bai tabbatar da session ba. Ka sake neman sabon code.");const {error:updateError}=await supabase.auth.updateUser({password});if(updateError)throw updateError;notice("An canza password cikin nasara. Yanzu ka shiga da sabon password.","success");$("verifyResetCodeForm").reset();$("resetPanel").hidden=true;$("signupPanel").hidden=true;$("loginPanel").hidden=false;$("loginEmail").value=email;$("loginPassword").value="";await supabase.auth.signOut();}catch(err){notice(err.message||"Code bai yi aiki ba ko ya kare. Ka nemi sabon code.","error");}finally{b.disabled=false;}});
+$("backToLogin").onclick=()=>setAuthTab("login");
+$("showSignup").onclick=()=>setAuthTab("signup");
+$("logoutBtn").onclick=async()=>{await supabase.auth.signOut();state.user=null;state.data=null;showApp();notice("You have signed out.");};
+$("profileAdminBtn").onclick=()=>showPage("admin");
+
+$("homeTapButton")?.addEventListener("click",()=>showPage("tap"));
+$("homeStartTap")?.addEventListener("click",()=>showPage("tap"));
+function floatTap(x,y){const el=document.createElement("span");el.className="float-point";el.textContent="+"+fmt(state.data?.settings?.tap_points||2);el.style.left=x+"px";el.style.top=y+"px";document.body.appendChild(el);setTimeout(()=>el.remove(),900);}
+function updateTapDisplay(){const amount=Number(state.data?.settings?.tap_points||2),limit=Number(state.data?.settings?.tap_daily_limit||2800),taps=Number(state.data?.taps_today||0),cap=limit*amount,coins=Math.min(taps*amount,cap),pct=Math.min(100,coins/cap*100);if($("dashboardBalance"))$("dashboardBalance").textContent=fmt(localBalance);if($("walletBalance"))$("walletBalance").textContent=fmt(localBalance);if($("tapCount"))$("tapCount").textContent=fmt(taps);["dailyProgress","tapProgress"].forEach(id=>{if($(id))$(id).style.width=pct+"%";});if($("dailyProgressText"))$("dailyProgressText").textContent=fmt(coins)+" / "+fmt(cap)+" points mined today";if($("tapCoinsToday"))$("tapCoinsToday").textContent=fmt(coins)+" / "+fmt(cap);if($("tapStatus"))$("tapStatus").textContent=pendingTapCount||tapFlushBusy?"Saving taps securely…":"All taps saved";}
+function scheduleTapFlush(delay=2500){clearTimeout(tapFlushTimer);tapFlushTimer=setTimeout(flushTapQueue,delay);}
+async function flushTapQueue(){if(tapFlushBusy||pendingTapCount<1)return;tapFlushBusy=true;const batch=Math.min(pendingTapCount,25);pendingTapCount-=batch;try{const result=await api("tap_batch",{tap_count:batch}),saved=Number(result.result?.taps_awarded??batch),amount=Number(state.data?.settings?.tap_points||2);if(saved<batch){const lost=batch-saved;state.data.taps_today=Math.max(0,state.data.taps_today-lost);localBalance-=lost*amount;}const expected=batch*amount,awarded=Number(result.result?.points_awarded??expected);if(awarded!==expected)localBalance+=awarded-expected;state.data.balance=localBalance;}catch(err){const amount=Number(state.data?.settings?.tap_points||2);state.data.taps_today=Math.max(0,state.data.taps_today-batch);localBalance=Math.max(0,localBalance-batch*amount);notice(err.message||"Some taps could not be saved. Please try again.","error");}finally{tapFlushBusy=false;updateTapDisplay();if(pendingTapCount>0)scheduleTapFlush(2500);}}
+function performTap(ev){if(!state.user||!state.data)return;if(navigator.vibrate)navigator.vibrate(15);const amount=Number(state.data.settings.tap_points||2),limit=Number(state.data.settings.tap_daily_limit||2800);if(Number(state.data.taps_today||0)>=limit){notice("You have reached today's mining limit. Come back tomorrow.","error");return;}const rect=ev.currentTarget.getBoundingClientRect();floatTap(ev.clientX||rect.left+rect.width/2,ev.clientY||rect.top+rect.height/2);document.querySelectorAll(".tap-orb").forEach(o=>{o.classList.add("pressed");setTimeout(()=>o.classList.remove("pressed"),110);});pendingTapCount++;state.data.taps_today=Number(state.data.taps_today||0)+1;localBalance=(localBalance??Number(state.data.balance||0))+amount;state.data.balance=localBalance;updateTapDisplay();scheduleTapFlush(2500);}
+$("tapButton").onclick=performTap;
+document.querySelectorAll(".tap-orb").forEach(orb=>orb.addEventListener("click",performTap));
+$("copyLink").onclick=async()=>{try{await navigator.clipboard.writeText($("refLink").value);notice("Invite link copied!","success");}catch{ $("refLink").select();document.execCommand("copy");notice("Invite link copied!","success");}};
+$("withdrawForm").addEventListener("submit",async e=>{
+ e.preventDefault();const b=$("withdrawBtn");b.disabled=true;
+ try{await api("withdraw",{points:Number($("withdrawPoints").value),method:"Bank transfer",account_name:$("accountNameInput").value.trim(),account_number:$("accountNumberInput").value.trim(),bank_name:$("bankNameInput").value.trim()});notice("Withdrawal request submitted for admin review.","success");$("withdrawForm").reset();await loadDashboard();}
+ catch(err){notice(err.message,"error");}finally{b.disabled=false;}
+});
+$("adminRows").addEventListener("click",async e=>{const b=e.target.closest("[data-review]");if(!b)return;try{await api("review_withdrawal",{request_id:b.dataset.review,status:b.dataset.status,note:"Reviewed by NEWHUB admin"});notice("Withdrawal request updated.","success");await loadAdmin();}catch(err){notice(err.message,"error");}});
+$("profileName").addEventListener("change",async()=>notice("Profile name editing will be enabled after profile update policy is added."));
+const params=new URLSearchParams(location.search);if(params.get("ref"))$("signupReferral").value=params.get("ref").toUpperCase();
+supabase.auth.onAuthStateChange((_event,session)=>{if(session)showApp().catch(e=>notice(e.message,"error"));else{state.user=null;state.data=null;$("authView").hidden=false;$("appView").hidden=true;$("logoutBtn").hidden=true;syncAdminVisibility();}});
+showApp().catch(e=>notice(e.message,"error"));
+\n</script></body></html>
