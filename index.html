@@ -133,12 +133,12 @@ body.install-required{overflow:hidden}
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
 <div id="notice" class="notice"></div>
-<section id="installGate" role="dialog" aria-modal="true" aria-labelledby="installGateTitle"><div class="install-gate-card"><div class="install-gate-icon">N</div><div class="install-gate-kicker">WELCOME TO NEWHUB</div><h1 id="installGateTitle">Install NEWHUB App</h1><p>For a faster, easier experience, install NEWHUB on your phone and open it from your home screen.</p><button id="installAppBtn" type="button">Install App</button><div id="installHelp" aria-live="polite">Installation is required before you can use NEWHUB.</div></div></section>
+<section id="installGate" hidden role="dialog" aria-modal="true" aria-labelledby="installGateTitle"><div class="install-gate-card"><div class="install-gate-icon">N</div><div class="install-gate-kicker">WELCOME TO NEWHUB</div><h1 id="installGateTitle">Install NEWHUB App</h1><p>Install NEWHUB before you start mining. Open the app from your phone’s home screen to begin mining.</p><button id="installAppBtn" type="button">Install App</button><div id="installHelp" aria-live="polite">Mining is locked until NEWHUB is installed. Install it, then open it from your home screen.</div></div></section>
 <section id="authView" class="auth-shell"><div class="auth-card">
- <div class="auth-tabs"><button id="authTabLogin" class="active" type="button">Sign In</button><button id="authTabSignup" type="button">Create Account</button><button id="authTabReset" type="button">Reset</button></div>
- <div id="signupPanel" hidden><h1>Create your account</h1><p>Join NEWHUB and start earning points.</p>
+ <div class="auth-tabs"><button id="authTabSignup" class="active" type="button">Register</button><button id="authTabLogin" type="button">Login</button><button id="authTabReset" type="button">Reset</button></div>
+ <div id="signupPanel"><h1>Create your account</h1><p>Join NEWHUB and start earning points.</p>
  <form id="signupForm"><div class="field"><label>Full name</label><input id="signupName" required maxlength="80" placeholder="Your full name"></div><div class="field"><label>Email address</label><input id="signupEmail" type="email" required placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="signupPassword" type="password" minlength="8" required placeholder="At least 8 characters"></div><div class="field"><label>Referral code (optional)</label><input id="signupReferral" maxlength="20" placeholder="Enter invite code"></div><button id="signupBtn" class="btn" style="width:100%">Create account</button></form></div>
- <div id="loginPanel"><h1>Welcome back</h1><p>Sign in to continue to your NEWHUB dashboard.</p><form id="loginForm"><div class="field"><label>Email address</label><input id="loginEmail" type="email" required placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="loginPassword" type="password" required placeholder="Your password"></div><button class="btn" style="width:100%">Sign In</button></form><button id="forgotPassword" type="button" class="switch">Forgot password?</button></div>
+ <div id="loginPanel" hidden><h1>Welcome back</h1><p>Sign in to continue to your NEWHUB dashboard.</p><form id="loginForm"><div class="field"><label>Email address</label><input id="loginEmail" type="email" required placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="loginPassword" type="password" required placeholder="Your password"></div><button class="btn" style="width:100%">Sign In</button></form><button id="forgotPassword" type="button" class="switch">Forgot password?</button></div>
  <div id="resetPanel" hidden><h1>Reset password</h1><p>We’ll send a 6-digit recovery code to your email.</p><form id="sendResetCodeForm"><div class="field"><label>Email address</label><input id="resetEmail" type="email" required placeholder="you@example.com"></div><button id="sendResetCodeBtn" class="btn cyan" style="width:100%">Send recovery code</button></form><form id="verifyResetCodeForm" hidden><div class="field"><label>6-digit recovery code</label><input id="resetCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required placeholder="123456"></div><div class="field"><label>New password</label><input id="newPassword" type="password" minlength="8" required placeholder="At least 8 characters"></div><div class="field"><label>Confirm new password</label><input id="confirmNewPassword" type="password" minlength="8" required placeholder="Enter password again"></div><button id="saveNewPasswordBtn" class="btn" style="width:100%">Verify & save password</button></form><button id="backToLogin" class="switch" type="button">Back to sign in</button></div>
  <button id="showLogin" type="button" hidden></button><button id="showSignup" type="button" hidden></button><p class="hint">Your account is protected by Supabase Authentication.</p>
 </div></section>
@@ -154,7 +154,7 @@ body.install-required{overflow:hidden}
 <div data-page="dashboard" class="home-screen" hidden>
 <div class="welcome-hero"><div class="eyebrow">WELCOME TO NEWHUB</div><h2>Every Tap Counts.<br>Every Day, Grow.</h2><p>Earn points with every tap, invite your friends, and build your rewards with NEWHUB.</p></div>
 <div class="home-balance"><div><span class="label">TOTAL POINTS</span><div class="big" id="dashboardBalance">0</div></div><span class="balance-mark">N</span></div>
-<div class="home-miner"><div class="miner-top"><span>⚡ DAILY MINING</span><b id="dailyProgressText">0 / 5,600</b></div><div class="daily-progress"><span id="dailyProgress"></span></div><div class="tap-orb" id="homeTapOrb" role="button" aria-label="Tap to earn points"><span class="coin-mark">N</span></div><div class="miner-caption">TAP THE COIN • EARN 2 POINTS</div><p class="hint">Earn 2 points with every tap. Keep going and reach your daily goal.</p><button class="btn" id="homeTapButton">START EARNING</button></div>
+<div class="home-miner"><div class="miner-top"><span>⚡ DAILY MINING</span><b id="dailyProgressText">0 / 5,600</b></div><div class="daily-progress"><span id="dailyProgress"></span></div><div class="tap-orb" id="homeTapOrb" role="button" aria-label="Tap to earn points"><span class="coin-mark">N</span></div><div class="miner-caption">TAP THE COIN • EARN 2 POINTS</div><p class="hint">Install NEWHUB App before start mining ⛏️ 2026.</p><p class="hint">Earn 2 points with every tap. Keep going and reach your daily goal.</p><button class="btn" id="homeTapButton">START MINING ⛏️ 2026</button></div>
 <div class="home-stats"><div><span class="label">TAPS TODAY</span><b id="tapCount">0</b></div><div><span class="label">FRIENDS</span><b id="refCount">0</b></div><div><span class="label">INVITE REWARD</span><b>20K</b></div></div>
 <div class="home-invite"><div><span class="eyebrow">COMMUNITY MILESTONE</span><h2>35 friends = 20,000 points</h2><p>Invite friends with your personal link.</p></div><button class="hero-pill" onclick="document.querySelector('[data-nav=invite]').click()">INVITE</button></div>
 <div class="home-activity"><h2>Recent activity</h2><div class="table-wrap"><table><thead><tr><th>Activity</th><th>Points</th><th>Date</th></tr></thead><tbody id="dashboardLedgerRows"></tbody></table></div></div></div>
@@ -245,6 +245,7 @@ function syncAdminVisibility(){
 }
 function showPage(page) {
   if(page==="admin"&&state.data?.profile?.role!=="admin")page="dashboard";
+  if(page==="tap"&&!isAppInstalled()){showInstallGate();return;}
   state.page=page;
   document.querySelectorAll("[data-page]").forEach(x=>x.hidden=x.dataset.page!==page);
   document.querySelectorAll("[data-nav]").forEach(x=>{if(x.dataset.nav!=="admin")x.hidden=false;x.classList.toggle("active",x.dataset.nav===page);});
@@ -296,7 +297,7 @@ function floatTap(x,y){const el=document.createElement("span");el.className="flo
 function updateTapDisplay(){const amount=Number(state.data?.settings?.tap_points||2),limit=Number(state.data?.settings?.tap_daily_limit||2800),taps=Number(state.data?.taps_today||0),cap=limit*amount,coins=Math.min(taps*amount,cap),pct=Math.min(100,coins/cap*100);if($("dashboardBalance"))$("dashboardBalance").textContent=fmt(localBalance);if($("walletBalance"))$("walletBalance").textContent=fmt(localBalance);if($("tapCount"))$("tapCount").textContent=fmt(taps);["dailyProgress","tapProgress"].forEach(id=>{if($(id))$(id).style.width=pct+"%";});if($("dailyProgressText"))$("dailyProgressText").textContent=fmt(coins)+" / "+fmt(cap)+" points mined today";if($("tapCoinsToday"))$("tapCoinsToday").textContent=fmt(coins)+" / "+fmt(cap);if($("tapStatus"))$("tapStatus").textContent=pendingTapCount||tapFlushBusy?"Saving taps securely…":"All taps saved";}
 function scheduleTapFlush(delay=2500){clearTimeout(tapFlushTimer);tapFlushTimer=setTimeout(flushTapQueue,delay);}
 async function flushTapQueue(){if(tapFlushBusy||pendingTapCount<1)return;tapFlushBusy=true;const batch=Math.min(pendingTapCount,25);pendingTapCount-=batch;try{const result=await api("tap_batch",{tap_count:batch}),saved=Number(result.result?.taps_awarded??batch),amount=Number(state.data?.settings?.tap_points||2);if(saved<batch){const lost=batch-saved;state.data.taps_today=Math.max(0,state.data.taps_today-lost);localBalance-=lost*amount;}const expected=batch*amount,awarded=Number(result.result?.points_awarded??expected);if(awarded!==expected)localBalance+=awarded-expected;state.data.balance=localBalance;}catch(err){const amount=Number(state.data?.settings?.tap_points||2);state.data.taps_today=Math.max(0,state.data.taps_today-batch);localBalance=Math.max(0,localBalance-batch*amount);notice(err.message||"Some taps could not be saved. Please try again.","error");}finally{tapFlushBusy=false;updateTapDisplay();if(pendingTapCount>0)scheduleTapFlush(2500);}}
-function performTap(ev){if(!state.user||!state.data)return;if(typeof navigator.vibrate==="function")navigator.vibrate([25,18,35]);const amount=Number(state.data.settings.tap_points||2),limit=Number(state.data.settings.tap_daily_limit||2800);if(Number(state.data.taps_today||0)>=limit){notice("You have reached today's mining limit. Come back tomorrow.","error");return;}const rect=ev.currentTarget.getBoundingClientRect();floatTap(ev.clientX||rect.left+rect.width/2,ev.clientY||rect.top+rect.height/2);document.querySelectorAll(".tap-orb").forEach(o=>{o.classList.add("pressed");setTimeout(()=>o.classList.remove("pressed"),110);});pendingTapCount++;state.data.taps_today=Number(state.data.taps_today||0)+1;localBalance=(localBalance??Number(state.data.balance||0))+amount;state.data.balance=localBalance;updateTapDisplay();scheduleTapFlush(2500);}
+function performTap(ev){if(!state.user||!state.data)return;if(!isAppInstalled()){showInstallGate();return;}if(typeof navigator.vibrate==="function")navigator.vibrate([25,18,35]);const amount=Number(state.data.settings.tap_points||2),limit=Number(state.data.settings.tap_daily_limit||2800);if(Number(state.data.taps_today||0)>=limit){notice("You have reached today's mining limit. Come back tomorrow.","error");return;}const rect=ev.currentTarget.getBoundingClientRect();floatTap(ev.clientX||rect.left+rect.width/2,ev.clientY||rect.top+rect.height/2);document.querySelectorAll(".tap-orb").forEach(o=>{o.classList.add("pressed");setTimeout(()=>o.classList.remove("pressed"),110);});pendingTapCount++;state.data.taps_today=Number(state.data.taps_today||0)+1;localBalance=(localBalance??Number(state.data.balance||0))+amount;state.data.balance=localBalance;updateTapDisplay();scheduleTapFlush(2500);}
 $("tapButton").onclick=performTap;
 document.querySelectorAll(".tap-orb").forEach(orb=>orb.addEventListener("click",performTap));
 function inviteShareText(){return "Join me on NEWHUB! Earn points by tapping and inviting friends. Sign up using my personal invite link: "+$("refLink").value;}
@@ -320,11 +321,18 @@ const installHelp=$("installHelp");
 function isAppInstalled(){
   return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true;
 }
+let installGateRequested=false;
+function showInstallGate(){
+  if(isAppInstalled())return false;
+  installGateRequested=true;
+  updateInstallGate();
+  return true;
+}
 function updateInstallGate(){
   if(!installGate)return;
   const installed=isAppInstalled();
-  installGate.hidden=installed;
-  document.body.classList.toggle("install-required",!installed);
+  installGate.hidden=installed||!installGateRequested;
+  document.body.classList.toggle("install-required",!installed&&installGateRequested);
 }
 window.addEventListener("beforeinstallprompt",event=>{
   event.preventDefault();
