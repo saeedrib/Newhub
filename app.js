@@ -60,10 +60,9 @@ async function showApp() {
 }
 function syncAdminVisibility(){
  const allowed=!!state.user&&state.data?.profile?.role==="admin";
- let nav=$("adminNav");
- if(allowed&&!nav){nav=document.createElement("button");nav.id="adminNav";nav.className="navbtn";nav.dataset.nav="admin";nav.innerHTML=`<svg viewBox="0 0 24 24"><path d="M12 3 4 6v5c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Admin</span>`;document.querySelector("aside")?.appendChild(nav);nav.addEventListener("click",()=>showPage("admin"));}
- if(nav)nav.hidden=!allowed;
- const section=document.querySelector(`[data-page="admin"]`);
+ const button=$("profileAdminBtn");
+ if(button)button.hidden=!allowed;
+ const section=document.querySelector('[data-page="admin"]');
  if(section){section.classList.add("admin-only");section.style.setProperty("display",allowed?"block":"none","important");}
 }
 function showPage(page) {
