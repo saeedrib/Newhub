@@ -1,0 +1,24 @@
+{
+  "id": "/",
+  "name": "NEWHUB — Tap, Earn, Grow",
+  "short_name": "NEWHUB",
+  "description": "Tap, earn points and invite friends with NEWHUB.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait",
+  "background_color": "#f4f8ff",
+  "theme_color": "#f4f8ff",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
