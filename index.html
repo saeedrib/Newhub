@@ -22,7 +22,7 @@ aside{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(
 @media(max-width:380px){.main{padding-left:12px;padding-right:12px}.tap-orb{width:196px;height:196px}.home-stats b{font-size:14px}.navbtn{font-size:8px}.auth-card{padding:23px 18px}}
 </style></head>
 <body>
-<header><a class="brand" href="#"><span>NEW</span>HUB</a></header>
+<header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
 <div id="notice" class="notice"></div>
 <section id="authView" class="auth-shell"><div class="auth-card">
  <div class="auth-tabs"><button id="authTabLogin" class="active" type="button">Sign In</button><button id="authTabSignup" type="button">Create Account</button><button id="authTabReset" type="button">Reset</button></div>
@@ -30,7 +30,7 @@ aside{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(
  <form id="signupForm"><div class="field"><label>Full name</label><input id="signupName" required maxlength="80" placeholder="Your full name"></div><div class="field"><label>Email address</label><input id="signupEmail" type="email" required placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="signupPassword" type="password" minlength="8" required placeholder="At least 8 characters"></div><div class="field"><label>Referral code (optional)</label><input id="signupReferral" maxlength="20" placeholder="Enter invite code"></div><button id="signupBtn" class="btn" style="width:100%">Create account</button></form></div>
  <div id="loginPanel"><h1>Welcome back</h1><p>Sign in to continue to your NEWHUB dashboard.</p><form id="loginForm"><div class="field"><label>Email address</label><input id="loginEmail" type="email" required placeholder="you@example.com"></div><div class="field"><label>Password</label><input id="loginPassword" type="password" required placeholder="Your password"></div><button class="btn" style="width:100%">Sign In</button></form><button id="forgotPassword" type="button" class="switch">Forgot password?</button></div>
  <div id="resetPanel" hidden><h1>Reset password</h1><p>We’ll send a 6-digit recovery code to your email.</p><form id="sendResetCodeForm"><div class="field"><label>Email address</label><input id="resetEmail" type="email" required placeholder="you@example.com"></div><button id="sendResetCodeBtn" class="btn cyan" style="width:100%">Send recovery code</button></form><form id="verifyResetCodeForm" hidden><div class="field"><label>6-digit recovery code</label><input id="resetCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required placeholder="123456"></div><div class="field"><label>New password</label><input id="newPassword" type="password" minlength="8" required placeholder="At least 8 characters"></div><div class="field"><label>Confirm new password</label><input id="confirmNewPassword" type="password" minlength="8" required placeholder="Enter password again"></div><button id="saveNewPasswordBtn" class="btn" style="width:100%">Verify & save password</button></form><button id="backToLogin" class="switch" type="button">Back to sign in</button></div>
- <p class="hint">Your account is protected by Supabase Authentication.</p>
+ <button id="showLogin" type="button" hidden></button><button id="showSignup" type="button" hidden></button><p class="hint">Your account is protected by Supabase Authentication.</p>
 </div></section>
 <section id="appView" hidden><div class="app-layout">
 <aside>
