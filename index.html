@@ -53,6 +53,41 @@ aside{background:rgba(255,255,255,.94);border:1px solid #e1e9f3;box-shadow:0 8px
 .float-point{color:#d9910b;-webkit-text-stroke:.4px #fff;text-shadow:0 2px 8px #e8a82c55,0 3px 8px #fff}
 #changePasswordPanel{margin-top:16px;padding-top:14px;border-top:1px solid #e5ebf5}
 @media(max-width:380px){.tap-orb{width:210px;height:210px}}
+
+/* Final readability and notification polish */
+#notice{top:auto!important;bottom:calc(22px + env(safe-area-inset-bottom))!important;left:50%;transform:translateX(-50%);width:min(460px,calc(100% - 28px));padding:15px 17px 15px 48px;min-height:52px;display:none;align-items:center;background:#172b45!important;color:#fff!important;border:1px solid #315477!important;border-left:5px solid #2bb7a5!important;border-radius:16px;box-shadow:0 14px 38px rgba(20,43,72,.24)!important;font-size:13px!important;font-weight:700;line-height:1.5;z-index:9999}
+#notice.show{display:flex!important}
+#notice:before{content:"i";position:absolute;left:16px;top:50%;transform:translateY(-50%);width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#d8f7f1;color:#087b70;font-size:14px;font-weight:900}
+#notice.error{background:#3a1f2a!important;border-color:#8d4051!important;border-left-color:#ff657a!important;color:#fff!important}
+#notice.error:before{content:"!";background:#ffe1e5;color:#b4233a}
+#notice.success{background:#17372f!important;border-color:#28765d!important;border-left-color:#36c58e!important;color:#fff!important}
+#notice.success:before{content:"✓";background:#d9f9eb;color:#08784b}
+#notice.info:before{content:"i"}
+/* Keep every text readable on the light theme */
+body,#appView,.main,.mainhead h1,.card,.card h2,.card p,.card label,.welcome-hero h2,.home-stats b,.home-activity h2{color:#1c2d45}
+.hint,.auth-card p,.welcome-hero p,.home-invite p,.miner-top,.tap-meta{color:#64758e!important}
+.label,.field label,.miner-top span,.invite-progress-label,.mainhead .hint{color:#526681!important}
+.eyebrow,.miner-caption,.tap-status{color:#087f78!important}
+.big,.home-stats b{color:#1c3552}
+.home-balance .big,.balance-card .big{color:#98650c!important}
+.share-btn,.share-btn.native{color:#28435f!important}
+.share-btn.whatsapp{color:#087b43!important}.share-btn.facebook{color:#1556a8!important}.share-btn.telegram{color:#087cae!important}
+.linkrow input{color:#20334e!important}
+table th,table td{color:#344963!important;border-bottom:1px solid #e5ebf3!important}
+table th{color:#60738d!important}
+.positive{color:#087b50!important}.negative{color:#bd3046!important}
+.status.pending{background:#273449!important;color:#fff!important}
+.status.approved,.status.paid{background:#dff7ec!important;color:#08784b!important}
+.status.rejected{background:#ffe8ec!important;color:#b42336!important}
+.navbtn{color:#657791!important}.navbtn.active{color:#087f78!important}
+.auth-tabs button{color:#63748d!important}.auth-tabs button.active{color:#087f78!important}
+.switch{color:#087f78!important}
+.card .hint,.tap-card .hint{font-size:12px;line-height:1.65}
+.label{font-size:11px;letter-spacing:.7px}
+.field label{font-size:12px}
+.share-btn{font-size:12px}
+.navbtn{font-size:10px}
+@media(max-width:380px){#notice{bottom:calc(84px + env(safe-area-inset-bottom))!important;font-size:12px!important}.navbtn{font-size:9px}}
 </style></head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
@@ -185,7 +220,7 @@ $("signupForm").addEventListener("submit",async e=>{
  }catch(err){notice(err.message,"error");}finally{btn.disabled=false;}
 });
 $("loginForm").addEventListener("submit",async e=>{
- e.preventDefault();const btn=$("loginForm").querySelector("button");if(btn)btn.disabled=true;try{const email=$("loginEmail").value.trim().toLowerCase(),password=$("loginPassword").value;const {error}=await supabase.auth.signInWithPassword({email,password});if(error){if(/invalid login credentials/i.test(error.message))throw new Error("Incorrect email or password. Click Forgot password? to reset your password using your email.");throw error;}notice("An shiga account cikin nasara.","success");await showApp();}catch(err){notice(err.message,"error");}finally{if(btn)btn.disabled=false;}
+ e.preventDefault();const btn=$("loginForm").querySelector("button");if(btn)btn.disabled=true;try{const email=$("loginEmail").value.trim().toLowerCase(),password=$("loginPassword").value;const {error}=await supabase.auth.signInWithPassword({email,password});if(error){if(/invalid login credentials/i.test(error.message))throw new Error("Incorrect email or password. Click Forgot password? to reset your password using your email.");throw error;}notice("Login successful. Welcome back!","success");await showApp();}catch(err){notice(err.message,"error");}finally{if(btn)btn.disabled=false;}
 });
 function setAuthTab(tab){
  $("loginPanel").hidden=tab!=="login";$("signupPanel").hidden=tab!=="signup";$("resetPanel").hidden=tab!=="reset";
@@ -197,8 +232,8 @@ $("authTabSignup").onclick=()=>setAuthTab("signup");
 $("authTabReset").onclick=()=>{const email=$("loginEmail").value.trim().toLowerCase();if(email)$("resetEmail").value=email;setAuthTab("reset");};
 $("showLogin").onclick=()=>setAuthTab("login");
 $("forgotPassword").onclick=()=>{const email=$("loginEmail").value.trim().toLowerCase();$("resetEmail").value=email;setAuthTab("reset");};
-$("sendResetCodeForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("resetEmail").value.trim().toLowerCase(),b=$("sendResetCodeBtn");b.disabled=true;try{const {error}=await supabase.auth.resetPasswordForEmail(email);if(error)throw error;$("verifyResetCodeForm").hidden=false;$("sendResetCodeForm").hidden=true;notice("An aika recovery code zuwa Gmail. Duba Inbox da Spam.","success");$("resetCode").focus();}catch(err){notice(err.message||"Ba a iya aika code ba. Ka sake gwadawa.","error");}finally{b.disabled=false;}});
-$("verifyResetCodeForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("resetEmail").value.trim().toLowerCase(),token=$("resetCode").value.trim(),password=$("newPassword").value,confirm=$("confirmNewPassword").value,b=$("saveNewPasswordBtn");if(password!==confirm){notice("Sabon password da tabbatarwa ba su yi daidai ba.","error");return;}if(!/^\\d{6}$/.test(token)){notice("Shigar da code mai lambobi 6 daga Gmail.","error");return;}b.disabled=true;try{const {data,error}=await supabase.auth.verifyOtp({email,token,type:"recovery"});if(error)throw error;if(!data.session)throw new Error("Code bai tabbatar da session ba. Ka sake neman sabon code.");const {error:updateError}=await supabase.auth.updateUser({password});if(updateError)throw updateError;notice("An canza password cikin nasara. Yanzu ka shiga da sabon password.","success");$("verifyResetCodeForm").reset();$("resetPanel").hidden=true;$("signupPanel").hidden=true;$("loginPanel").hidden=false;$("loginEmail").value=email;$("loginPassword").value="";await supabase.auth.signOut();}catch(err){notice(err.message||"Code bai yi aiki ba ko ya kare. Ka nemi sabon code.","error");}finally{b.disabled=false;}});
+$("sendResetCodeForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("resetEmail").value.trim().toLowerCase(),b=$("sendResetCodeBtn");b.disabled=true;try{const {error}=await supabase.auth.resetPasswordForEmail(email);if(error)throw error;$("verifyResetCodeForm").hidden=false;$("sendResetCodeForm").hidden=true;notice("A recovery code has been sent to your email. Check your Inbox and Spam folders.","success");$("resetCode").focus();}catch(err){notice(err.message||"Unable to send the recovery code. Please try again.","error");}finally{b.disabled=false;}});
+$("verifyResetCodeForm").addEventListener("submit",async e=>{e.preventDefault();const email=$("resetEmail").value.trim().toLowerCase(),token=$("resetCode").value.trim(),password=$("newPassword").value,confirm=$("confirmNewPassword").value,b=$("saveNewPasswordBtn");if(password!==confirm){notice("Your new passwords do not match. Please check and try again.","error");return;}if(!/^\\d{6}$/.test(token)){notice("Enter the 6-digit recovery code sent to your email.","error");return;}b.disabled=true;try{const {data,error}=await supabase.auth.verifyOtp({email,token,type:"recovery"});if(error)throw error;if(!data.session)throw new Error("The recovery code could not be verified. Please request a new code.");const {error:updateError}=await supabase.auth.updateUser({password});if(updateError)throw updateError;notice("Password updated successfully. You can now sign in with your new password.","success");$("verifyResetCodeForm").reset();$("resetPanel").hidden=true;$("signupPanel").hidden=true;$("loginPanel").hidden=false;$("loginEmail").value=email;$("loginPassword").value="";await supabase.auth.signOut();}catch(err){notice(err.message||"The recovery code is invalid or has expired. Please request a new one.","error");}finally{b.disabled=false;}});
 $("backToLogin").onclick=()=>setAuthTab("login");
 $("showSignup").onclick=()=>setAuthTab("signup");
 $("logoutBtn").onclick=async()=>{await supabase.auth.signOut();state.user=null;state.data=null;showApp();notice("You have signed out.");};
