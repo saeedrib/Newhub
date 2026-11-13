@@ -91,7 +91,7 @@ async function loadDashboard() {
   $("tapCount").textContent=fmt(state.data.taps_today);
   document.querySelectorAll("#refCount").forEach(el=>el.textContent=fmt(state.data.referrals));
   $("refCode").textContent=state.data.profile.referral_code;
-  const inviteUrl=new URL("https://saeedribadu.com.ng/");inviteUrl.searchParams.set("ref",state.data.profile.referral_code);$("refLink").value=inviteUrl.toString();updateShareLinks();
+  const inviteUrl=new URL("https://newhub-omega.vercel.app/");inviteUrl.searchParams.set("ref",state.data.profile.referral_code);$("refLink").value=inviteUrl.toString();updateShareLinks();
   $("tapReward").textContent=state.data.settings.tap_points+" coins per tap";
   if($("tapButton"))$("tapButton").title="Earn "+state.data.settings.tap_points+" coins per tap";
   if($("dailyLimit"))$("dailyLimit").textContent=state.data.settings.tap_daily_limit;
