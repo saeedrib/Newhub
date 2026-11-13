@@ -1,20 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs>
- <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#082b65"/><stop offset="1" stop-color="#12a77a"/></linearGradient>
- <linearGradient id="scarf" x2="1" y2="1"><stop stop-color="#25d88a"/><stop offset="1" stop-color="#08744f"/></linearGradient>
- <linearGradient id="skin" x2="0" y2="1"><stop stop-color="#d99a72"/><stop offset="1" stop-color="#9b5538"/></linearGradient>
-</defs>
-<rect width="512" height="512" rx="112" fill="url(#bg)"/>
-<circle cx="256" cy="224" r="176" fill="#ffffff" opacity=".08"/>
-<path d="M94 438c9-95 62-151 126-164h72c64 13 117 69 126 164v74H94z" fill="url(#scarf)"/>
-<path d="M139 244c-13-105 28-180 117-180 93 0 137 72 117 181-9 57-33 117-75 147-14 10-28 15-42 15s-29-5-42-15c-42-30-66-90-75-148z" fill="url(#scarf)"/>
-<path d="M185 180c8-49 38-77 71-77 37 0 66 28 73 77 8 56-1 115-23 151-14 23-31 35-50 35s-36-12-50-35c-22-36-31-95-21-151z" fill="url(#skin)"/>
-<path d="M178 178c-5-75 28-124 83-124 60 0 96 45 83 127-21-20-39-42-53-67-20 29-59 53-113 64z" fill="#08744f"/>
-<path d="M205 226c13-9 27-9 39 0M270 226c13-9 27-9 39 0" fill="none" stroke="#43271f" stroke-width="8" stroke-linecap="round"/>
-<path d="M224 264c20 13 44 13 64 0" fill="none" stroke="#713d31" stroke-width="7" stroke-linecap="round"/>
-<path d="M256 260v18" stroke="#8b4b38" stroke-width="5" stroke-linecap="round"/>
-<path d="M146 420c28-57 64-82 110-82s82 25 110 82" fill="none" stroke="#8cf0bd" stroke-width="9" opacity=".7"/>
-<circle cx="256" cy="416" r="34" fill="#ffc23c" stroke="#fff0b0" stroke-width="7"/>
-<path d="M239 398h11v27l25-27h14l-27 29 29 8v12l-36-10-5 6v4h-11z" fill="#fff8dc"/>
-<text x="256" y="489" text-anchor="middle" font-family="Arial,sans-serif" font-size="31" font-weight="900" fill="#fff">NEWHUB</text>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eaf3fb"/>
+    </linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#183e69"/>
+      <stop offset="1" stop-color="#102747"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#31c99a"/>
+      <stop offset="1" stop-color="#07866c"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#183e69" flood-opacity=".16"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#tile)"/>
+  <circle cx="405" cy="108" r="54" fill="#dff6ed"/>
+  <circle cx="104" cy="402" r="42" fill="#e2effb"/>
+  <g filter="url(#shadow)">
+    <rect x="76" y="76" width="360" height="360" rx="96" fill="url(#navy)"/>
+    <path d="M157 337V175c0-13 11-24 24-24h21c8 0 15 4 20 10l112 139V175c0-13 11-24 24-24h1c13 0 24 11 24 24v162c0 13-11 24-24 24h-19c-8 0-15-4-20-10L205 209v128c0 13-11 24-24 24h-1c-13 0-23-11-23-24z" fill="#fff"/>
+    <path d="M310 337c-7 0-13-3-18-8l-28-32 35-35 46 52c7 8 6 19-2 26-4 4-9 6-15 6z" fill="url(#green)"/>
+    <circle cx="355" cy="157" r="39" fill="url(#green)" stroke="#b8f4dc" stroke-width="7"/>
+    <path d="M355 137v40m-14-27h22c8 0 12 5 12 11s-4 11-12 11h-21" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+  </g>
 </svg>
