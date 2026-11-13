@@ -58,7 +58,8 @@ aside{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(
 <script>(function(s){s.dataset.zone='12238095',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 <!-- Monetag Vignette ad -->
 <script>(function(s){s.dataset.zone='12238513',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script type="module">\nimport { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
 
 const SUPABASE_URL = "https://gwjajtiagesuzbyxmooq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_OLbgnp2TxUO-JW56tSryhA_BcRnpgGT";
@@ -190,4 +191,5 @@ $("profileName").addEventListener("change",async()=>notice("Profile name editing
 const params=new URLSearchParams(location.search);if(params.get("ref"))$("signupReferral").value=params.get("ref").toUpperCase();
 supabase.auth.onAuthStateChange((_event,session)=>{if(session)showApp().catch(e=>notice(e.message,"error"));else{state.user=null;state.data=null;$("authView").hidden=false;$("appView").hidden=true;$("logoutBtn").hidden=true;syncAdminVisibility();}});
 showApp().catch(e=>notice(e.message,"error"));
-\n</script></body></html>
+
+</script></body></html>
