@@ -317,7 +317,53 @@ header{background:rgba(255,255,255,.88)!important;backdrop-filter:blur(20px)!imp
 .home-invite{background:linear-gradient(115deg,#fff6e7 0%,#eef5ff 100%)!important}
 aside{background:rgba(255,255,255,.9)!important;backdrop-filter:blur(22px)!important}
 </style>
-</head>
+<style id="newhub-fintech-light-theme">
+/* NEWHUB fintech light theme — final override */
+:root{color-scheme:light;--bg:#f4f6fa;--panel:#fff;--line:#e4e9f1;--text:#1f2937;--muted:#667085;--cyan:#2563eb;--green:#059669}
+html,body{background:#f4f6fa!important;color:#1f2937!important}
+body{background:#f4f6fa!important}
+header{background:#fff!important;border-bottom:1px solid #e6eaf0!important;box-shadow:0 2px 12px rgba(16,24,40,.04)!important}
+.brand{color:#172b4d!important}.brand span{color:#2563eb!important}
+.auth-shell{background:#f4f6fa!important}
+.auth-card,.card,.home-balance,.home-stats{background:#fff!important;border:1px solid #e5eaf1!important;color:#1f2937!important;box-shadow:0 4px 16px rgba(16,24,40,.055)!important}
+.auth-card:before{color:#2563eb!important}
+.auth-card h1,.card h2,.home-activity h2,.mainhead h1{color:#1f2937!important}
+.auth-card p,.hint,.welcome-hero p,.home-invite p{color:#667085!important}
+.field label,.label,.miner-top,.tap-meta{color:#667085!important}
+.field input,.field select,.linkrow input{background:#f8fafc!important;color:#1f2937!important;border:1px solid #dfe5ed!important}
+.field input::placeholder{color:#98a2b3!important}
+.auth-tabs{background:#eef2f7!important}.auth-tabs button{color:#667085!important}
+.auth-tabs button.active{background:#fff!important;color:#1d4ed8!important;box-shadow:0 2px 8px #172b4d14!important}
+.btn{background:#2563eb!important;color:#fff!important;box-shadow:0 4px 12px #2563eb25!important}
+.btn.cyan{background:#0f9f8f!important;color:#fff!important}
+.btn.ghost{background:#eef2f7!important;color:#344054!important;border-color:#dfe5ed!important}
+.switch,.eyebrow,.miner-caption,.tap-status{color:#2563eb!important}
+.welcome-hero{background:linear-gradient(135deg,#eaf2ff,#f0f7ff)!important;border:1px solid #dce8fa!important;box-shadow:0 4px 16px #1d4ed80c!important}
+.welcome-hero h2{color:#17345d!important}
+.welcome-hero:after{color:#2563eb!important;opacity:.045!important}
+.home-balance{background:#fff!important}
+.home-balance .big,.balance-card .big{color:#1d4ed8!important}
+.home-miner,.tap-card{background:#fff!important;border:1px solid #e3e9f2!important;box-shadow:0 4px 16px rgba(16,24,40,.05)!important}
+.miner-top b{color:#2563eb!important}
+.daily-progress{background:#e9edf4!important}.daily-progress span{background:linear-gradient(90deg,#2563eb,#60a5fa)!important;box-shadow:none!important}
+.home-stats>div{border-right-color:#e9edf2!important}.home-stats b{color:#1f2937!important}
+.home-invite{background:#f8fafc!important;border:1px solid #e5eaf1!important}
+.home-invite h2{color:#1f2937!important}
+.share-btn,.share-btn.native{background:#f8fafc!important;border-color:#e5eaf1!important;color:#344054!important}
+.share-btn.whatsapp{color:#087b43!important}.share-btn.facebook{color:#1556a8!important}.share-btn.telegram{color:#087cae!important}
+.balance-card{background:#fff!important;border-color:#e5eaf1!important}
+.status{background:#eef2f7!important;color:#475467!important}
+.status.pending{background:#273449!important;color:#fff!important}
+.status.approved,.status.paid{background:#dcfce7!important;color:#166534!important}
+.status.rejected{background:#fee2e2!important;color:#991b1b!important}
+aside{background:rgba(255,255,255,.97)!important;border:1px solid #e5eaf1!important;box-shadow:0 5px 20px rgba(16,24,40,.10)!important}
+.navbtn{color:#667085!important}.navbtn.active{color:#1d4ed8!important;background:#eff6ff!important;text-shadow:none!important}
+table th,table td{color:#344054!important;border-bottom:1px solid #e9edf2!important}
+table th{color:#667085!important}
+#notice{background:#172b45!important;color:#fff!important}
+#changePasswordPanel{border-top-color:#e5eaf1!important}
+@media(max-width:380px){.tap-orb{width:210px;height:210px}}
+</style></head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
 <div id="notice" class="notice"></div>
