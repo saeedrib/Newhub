@@ -442,6 +442,41 @@ aside{background:rgba(255,255,255,.97)!important;border-color:#dce7f3!important}
 #installDismiss{padding:2px 5px!important;margin:0!important;font-size:9px!important;line-height:1.2!important}
 @media(max-width:380px){.install-promo{padding:8px 9px!important;gap:7px!important}.install-promo h2{font-size:10px!important}#installAppBtn{min-height:28px!important;padding:6px 8px!important}}
 </style>
+
+<style id="newhub-remove-dark-backgrounds">
+/* Remove remaining dark panels that hide dashboard text */
+:root{color-scheme:light!important}
+html,body,#authView,#appView,.app-layout,.main,[data-page]{background-color:transparent!important;color:#203954!important}
+body{background:
+ radial-gradient(ellipse 95% 34% at 0% 0%,rgba(67,139,255,.25),transparent 72%),
+ radial-gradient(ellipse 78% 38% at 100% 18%,rgba(44,195,211,.18),transparent 72%),
+ linear-gradient(155deg,#fbfdff 0%,#edf5ff 52%,#eaf8fb 100%)!important}
+.card,.home-activity,.home-activity .table-wrap,.home-balance,.home-stats,.home-miner,.tap-card,
+.balance-card,.install-promo,.auth-card,.grid>.card,.section>.card{
+ background:rgba(255,255,255,.97)!important;
+ background-image:none!important;color:#203954!important;
+ border:1px solid #dce8f5!important;
+ box-shadow:0 8px 24px rgba(35,73,117,.09)!important
+}
+.home-activity{padding:15px!important;border-radius:18px!important}
+.home-activity h2,.card h2,.mainhead h1,.welcome-hero h2{color:#173451!important}
+.home-activity table,.home-activity thead,.home-activity tbody,
+.home-activity tr,.home-activity th,.home-activity td,
+.table-wrap,table{background:transparent!important}
+table th,table td{color:#344b65!important;border-bottom:1px solid #e6edf5!important}
+table th{color:#60758e!important}
+.home-stats{background:rgba(255,255,255,.97)!important}
+.home-stats>div{border-right:1px solid #e5edf6!important}
+.home-stats b,.big{color:#1e3a5a!important}
+.home-balance .big,.balance-card .big{color:#98650c!important}
+.welcome-hero{background:linear-gradient(125deg,#e3f3ff,#e9fbf5)!important;box-shadow:0 8px 22px rgba(35,73,117,.08)!important}
+.home-invite{background:linear-gradient(120deg,#fff9e9,#f0f7ff)!important}
+.linkrow input,.field input,.field select{background:#f7faff!important;color:#203954!important;border-color:#dce7f3!important}
+.btn.ghost,.share-btn,.share-btn.native{background:#edf4fb!important;color:#294762!important}
+aside{background:rgba(255,255,255,.98)!important}
+.status.pending{background:#e9eef5!important;color:#34465d!important}
+#notice{background:#fff!important;color:#203954!important}
+</style>
 </head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
