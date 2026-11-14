@@ -400,7 +400,49 @@ header{background:rgba(255,255,255,.88)!important;backdrop-filter:blur(20px)!imp
 .home-balance{background:linear-gradient(120deg,rgba(255,255,255,.98),rgba(239,247,255,.96))!important}
 .home-invite{background:linear-gradient(120deg,#fff9e9,#edf6ff)!important}
 aside{background:rgba(255,255,255,.94)!important;backdrop-filter:blur(22px)!important;border:1px solid rgba(215,228,245,.95)!important}
-</style></head>
+</style>
+<style id="newhub-final-mobile-polish">
+/* Compact optional install box + readable light dashboard */
+html,body{background:#eaf3ff!important;color:#172b4d!important}
+body{background:
+ radial-gradient(ellipse 95% 34% at 0% 0%,rgba(67,139,255,.30),transparent 72%),
+ radial-gradient(ellipse 78% 38% at 100% 18%,rgba(44,195,211,.22),transparent 72%),
+ radial-gradient(ellipse 90% 42% at 50% 100%,rgba(79,129,225,.19),transparent 72%),
+ linear-gradient(155deg,#fbfdff 0%,#eaf3ff 48%,#e7f7fb 100%)!important;
+ background-attachment:fixed!important}
+#authView,#appView,.app-layout,.main{background:transparent!important}
+.card,.home-balance,.home-stats,.home-miner,.tap-card,.auth-card{
+ background:rgba(255,255,255,.94)!important;border:1px solid #dce8f5!important;
+ box-shadow:0 12px 30px rgba(36,76,124,.10)!important;color:#1d3554!important
+}
+.welcome-hero{background:linear-gradient(125deg,#dff1ff,#e4fbf4)!important;border:1px solid #cfe6f2!important}
+.welcome-hero h2,.mainhead h1,.card h2{color:#173451!important}
+.welcome-hero p,.hint,.home-invite p,.tap-meta,.miner-top{color:#60758e!important}
+.label,.field label,.miner-top span{color:#526b88!important}
+.home-stats b{color:#173451!important}
+.home-invite{background:linear-gradient(120deg,#fff8e7,#eef7ff)!important;border-color:#f0dfb9!important}
+.home-invite h2{color:#805d18!important}
+table th,table td{color:#334b66!important;border-bottom:1px solid #e5edf6!important}
+table th{color:#60758e!important}
+aside{background:rgba(255,255,255,.97)!important;border-color:#dce7f3!important}
+.navbtn{color:#647b96!important}.navbtn.active{color:#1768cf!important;background:#eaf3ff!important}
+.install-promo{
+ display:flex!important;align-items:center!important;gap:10px!important;
+ margin:8px 0 12px!important;padding:10px 11px!important;
+ border-radius:14px!important;background:rgba(255,255,255,.88)!important;
+ border:1px solid #dce8f5!important;box-shadow:0 5px 16px rgba(36,76,124,.07)!important
+}
+.install-promo-copy{min-width:0;flex:1}
+.install-promo .eyebrow{font-size:8px!important;letter-spacing:1.1px!important}
+.install-promo h2{font-size:11px!important;line-height:1.25!important;margin:3px 0!important;color:#24415e!important}
+.install-promo p{display:none!important}
+#installHelp{font-size:9px!important;line-height:1.35!important;margin:2px 0 0!important;color:#71839a!important}
+.install-promo-actions{display:flex!important;flex:0 0 auto!important;align-items:center!important;gap:5px!important;flex-direction:column!important}
+#installAppBtn{width:auto!important;min-height:30px!important;padding:7px 10px!important;border-radius:9px!important;font-size:9px!important;white-space:nowrap!important}
+#installDismiss{padding:2px 5px!important;margin:0!important;font-size:9px!important;line-height:1.2!important}
+@media(max-width:380px){.install-promo{padding:8px 9px!important;gap:7px!important}.install-promo h2{font-size:10px!important}#installAppBtn{min-height:28px!important;padding:6px 8px!important}}
+</style>
+</head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
 <div id="notice" class="notice"></div>
