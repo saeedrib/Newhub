@@ -595,6 +595,45 @@ body{color:#203954!important}
  .home-stats b{font-size:17px!important}
 }
 </style>
+
+<style id="newhub-reference-final-override">
+/* Final dashboard override: placed after legacy light-theme styles */
+html,body{color-scheme:dark!important;background:#071326!important;color:#eefaff!important}
+body{background:radial-gradient(ellipse at 50% 35%,#102b49 0%,#071326 68%,#050d1b 100%)!important}
+#appView,.app-layout,.main{background:transparent!important;color:#eefaff!important}
+.home-screen{display:flex!important;flex-direction:column!important;gap:12px!important;padding:14px 12px 110px!important;max-width:520px!important;margin:0 auto!important}
+.home-screen>.home-balance{order:1!important;min-height:76px!important;background:linear-gradient(120deg,#10223e,#102e49)!important;border:1px solid rgba(65,215,231,.35)!important;color:#f4fbff!important}
+.home-screen>.home-balance .label{color:#9bb8cb!important}
+.home-screen>.home-balance .big{color:#fff!important;font-size:29px!important}
+.home-screen>.home-balance .balance-mark{background:linear-gradient(145deg,#36e2d3,#087fa8)!important;color:#062438!important}
+.home-screen>.welcome-hero{order:2!important;background:transparent!important;border:0!important;box-shadow:none!important;color:#f5fbff!important;padding:5px 4px!important}
+.home-screen>.welcome-hero .eyebrow{color:#48d9df!important}
+.home-screen>.welcome-hero h2{color:#f6fbff!important;font-size:21px!important}
+.home-screen>.welcome-hero p{color:#a9bfd2!important}
+.home-screen>.home-miner{order:3!important;background:linear-gradient(155deg,#0e1e38,#071326)!important;border:1px solid rgba(66,211,226,.3)!important;color:#f4fbff!important}
+.home-screen>.home-miner .miner-top,.home-screen>.home-miner .miner-top span{color:#a9c1d4!important}
+.home-screen>.home-miner .miner-top b{color:#53e2e5!important}
+.home-screen>.home-miner .daily-progress{background:#18364d!important}
+.home-screen>.home-miner .daily-progress span{background:linear-gradient(90deg,#16c9d5,#6af5d2)!important}
+.home-screen>.home-miner .tap-orb{display:grid!important;place-items:center!important;position:relative!important;width:210px!important;height:210px!important;max-width:68vw!important;max-height:68vw!important;min-width:0!important;min-height:0!important;margin:28px auto 22px!important;border:6px solid #55e5df!important;border-radius:50%!important;background:radial-gradient(circle at 50% 38%,#17647a 0%,#10435f 55%,#09243e 100%)!important;color:#fff!important;box-shadow:0 0 0 8px rgba(45,218,220,.12),0 0 0 17px rgba(45,218,220,.07),0 0 38px rgba(30,224,225,.38),inset 0 0 25px rgba(65,236,225,.22)!important;overflow:visible!important}
+.home-screen>.home-miner .tap-orb:before{content:"TAP &\A EARN"!important;position:absolute!important;inset:0!important;display:grid!important;place-items:center!important;white-space:pre!important;background:none!important;transform:none!important;color:#f6ffff!important;font-size:30px!important;line-height:1.12!important;font-weight:900!important;text-align:center!important;text-shadow:0 2px 15px #40e9e9aa!important}
+.home-screen>.home-miner .tap-orb:after{content:""!important;position:absolute!important;inset:-14px!important;border:2px solid rgba(67,225,226,.24)!important;border-radius:50%!important;pointer-events:none!important}
+.home-screen>.home-miner .tap-orb .coin-mark{display:none!important}
+.home-screen>.home-miner .miner-caption{color:#58e3e4!important}
+.home-screen>.home-miner .hint{color:#a9bfd2!important}
+.home-screen>.home-miner #homeTapButton{background:linear-gradient(100deg,#087c9b,#10a99f)!important;color:white!important;border:1px solid #4bdedc!important}
+.home-screen>.install-promo{order:4!important;background:linear-gradient(145deg,#10243e,#0b1b31)!important;border:1px solid rgba(74,205,219,.3)!important;color:#f5fbff!important}
+.home-screen>.install-promo .install-promo-copy h2{color:#f5fbff!important}
+.home-screen>.install-promo .install-promo-copy .eyebrow{color:#56dce1!important}
+.home-screen>.install-promo .install-promo-actions #installAppBtn{background:linear-gradient(135deg,#146b82,#17415e)!important;color:#fff!important;border:1px solid #3bbdca!important}
+.home-screen>.install-promo .install-promo-actions .whatsapp-follow-btn{background:linear-gradient(135deg,#118b69,#08734f)!important;color:#fff!important;border:1px solid #35d6a1!important}
+.home-screen>.install-promo .install-promo-actions #installDismiss{color:#9bb4c8!important}
+aside{background:rgba(8,25,47,.97)!important;border:1px solid rgba(73,194,211,.25)!important;box-shadow:0 -8px 30px rgba(0,0,0,.25)!important}
+.navbtn{color:#9bb4c8!important}
+.navbtn.active{background:rgba(40,197,211,.13)!important;color:#55e5df!important}
+.home-screen>.home-stats,.home-screen>.home-invite,.home-screen>.home-activity{display:none!important}
+@media(max-width:380px){.home-screen>.home-miner .tap-orb{width:190px!important;height:190px!important}.home-screen>.home-miner .tap-orb:before{font-size:27px!important}}
+</style>
 </head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
