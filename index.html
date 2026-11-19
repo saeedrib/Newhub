@@ -692,6 +692,14 @@ body{background:radial-gradient(ellipse at 50% 20%,#102b49 0%,#071326 70%,#050d1
 #appView .share-grid .share-btn.native::before{content:"↗";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:7px;background:#0e9aa7;color:#fff;font-size:15px}
 #appView .share-grid .share-btn:focus-visible{outline:2px solid #55e5df!important;outline-offset:3px}
 </style>
+<style id="newhub-home-whatsapp-shortcut">
+/* WhatsApp shortcut beside the Home mining button */
+#appView .home-screen>.home-miner .tap-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:stretch;width:100%;max-width:420px;margin:10px auto 0}
+#appView .home-screen>.home-miner .tap-actions #homeTapButton{width:100%;max-width:none;margin:0;min-width:0}
+#appView .home-screen>.home-miner .tap-whatsapp-btn{display:flex;align-items:center;justify-content:center;gap:7px;min-width:104px;padding:10px 12px;border-radius:14px;background:#128c4a;border:1px solid #35d47c;color:#fff!important;text-decoration:none;font-size:12px;font-weight:900;box-shadow:0 5px 16px #16a34a35}
+#appView .home-screen>.home-miner .tap-whatsapp-btn svg{width:21px;height:21px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:360px){#appView .home-screen>.home-miner .tap-actions{grid-template-columns:1fr}#appView .home-screen>.home-miner .tap-whatsapp-btn{min-height:42px}}
+</style>
 </head>
 <body>
 <header><a class="brand" href="#"><span>NEW</span>HUB</a><div class="header-right"><span id="accountEmail"></span></div></header>
@@ -939,9 +947,3 @@ supabase.auth.onAuthStateChange((event,session)=>{if(event==="PASSWORD_RECOVERY"
 showApp().catch(e=>notice(e.message,"error"));
 
 </script></body></html>
-/* WhatsApp shortcut beside the Home mining button */
-#appView .home-screen>.home-miner .tap-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:stretch;width:100%;max-width:420px;margin:10px auto 0}
-#appView .home-screen>.home-miner .tap-actions #homeTapButton{width:100%;max-width:none;margin:0;min-width:0}
-#appView .home-screen>.home-miner .tap-whatsapp-btn{display:flex;align-items:center;justify-content:center;gap:7px;min-width:104px;padding:10px 12px;border-radius:14px;background:#128c4a;border:1px solid #35d47c;color:#fff!important;text-decoration:none;font-size:12px;font-weight:900;box-shadow:0 5px 16px #16a34a35}
-#appView .home-screen>.home-miner .tap-whatsapp-btn svg{width:21px;height:21px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:360px){#appView .home-screen>.home-miner .tap-actions{grid-template-columns:1fr}#appView .home-screen>.home-miner .tap-whatsapp-btn{min-height:42px}}
